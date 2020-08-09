@@ -7,6 +7,8 @@ SPOTIFY_EVENT="com\.spotify\.client.+nowPlayingItem.+{"
 echo
 echo "Spotify Ads will be muted while this program is running!"
 echo "Press Ctrl+c to close this program or close the terminal window"
+echo
+echo "You can check updates for this program at https://gdi3d.github.io/mute-spotify-ads-mac-osx/"
 
 event_present=0
 
