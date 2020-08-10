@@ -17,7 +17,9 @@ I hate hearing the Spotify Ads. This small script detects when Ads gets loaded a
    `mkdir -p ~/MuteSpotifyAds && curl https://raw.githubusercontent.com/gdi3d/mute-spotify-ads-mac-osx/master/NoAdsSpotify.sh > ~/MuteSpotifyAds/NoAdsSpotify.sh`
 3. This will create a new folder inside your **Home** folder called **MuteSpotifyAds** and will place a new file called **NoAdsSpotify.sh**
 4. To run the program just copy and paste `sh ~/MuteSpotifyAds/NoAdsSpotify.sh` this command in the terminal and hit enter
-5. To exit the program just close the **terminal app** or press **Ctrl+c**
+5. Open Spotify and enjoy!
+
+To exit the program just close the **terminal app** or press **Ctrl+c**
 
 # Why not blocking Ads instead???
 
