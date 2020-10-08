@@ -1,5 +1,5 @@
 #!/bin/bash
-CURRENT_VER=1
+CURRENT_VER=3
 
 # Detect OSX version
 OSX_VERSION=$(defaults read loginwindow SystemVersionStampAsString)
@@ -113,7 +113,7 @@ log stream --process "mediaremoted" --type "log" --color none --style compact | 
             if grep -q -E "$AD_REG" <<< "$STREAM_LINE"; then
                 # We found and Ad OMG!! Let turn the volume way down!
                 echo ">> 🔇 Ad found! Your volume will be set all the way down now!"
-                osascript -e "set volume without output muted output volume 1 --100%"
+                osascript -e "set volume without output muted output volume 0.1 --100%"
                 
                 AD_DETECTED=1
                 EVENT_PRESENT=0
