@@ -1,5 +1,5 @@
 #!/bin/bash
-CURRENT_VER=4
+CURRENT_VER=5
 
 # Detect OSX version
 OSX_VERSION=$(defaults read loginwindow SystemVersionStampAsString)
@@ -138,8 +138,7 @@ log stream --process "mediaremoted" --type "log" --color none --style compact | 
                 echo ">> 🔇 Ad found! Your volume will be set all the way down now!"
 
                 if [ $HDMI -eq 1 ]; then
-                    # osascript -e 'tell application "iTunes" to set A to sound volume'
-                    osascript -e 'tell application "Spotify" to set sound volume to 0.1'
+                    osascript -e 'tell application "Spotify" to set sound volume to 1'
                 else
                     osascript -e "set volume without output muted output volume 0.1 --100%"
                 fi
