@@ -1,5 +1,5 @@
 #!/bin/bash
-CURRENT_VER=5
+CURRENT_VER=6
 
 # Detect OSX version
 OSX_VERSION=$(defaults read loginwindow SystemVersionStampAsString)
@@ -24,6 +24,7 @@ OS_CHEETAH=1004
 
 # check for HDMI flag. In this case we will lower the volume of spotify application
 # instead of system audio
+HDMI=0
 if [ "$1" == "hdmi" ]; then
     HDMI=1
 fi
