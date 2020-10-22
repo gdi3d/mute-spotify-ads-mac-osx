@@ -1,5 +1,5 @@
 #!/bin/bash
-CURRENT_VER=3
+CURRENT_VER=4
 
 # Detect OSX version
 OSX_VERSION=$(defaults read loginwindow SystemVersionStampAsString)
@@ -22,6 +22,12 @@ OS_JAGUAR=1028
 OS_PUMA=1015
 OS_CHEETAH=1004
 
+# check for HDMI flag. In this case we will lower the volume of spotify application
+# instead of system audio
+if [ "$1" == "hdmi" ]; then
+    HDMI=1
+fi
+
 # check if version is up-to-date
 INSTALLATION_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 
@@ -37,7 +43,7 @@ else
             if [ $update == "y" ]; then
                 curl https://raw.githubusercontent.com/gdi3d/mute-spotify-ads-mac-osx/master/NoAdsSpotify.sh > $INSTALLATION_DIR/NoAdsSpotify.sh
                 echo "Update finish. 🥳"
-                RELAUNCH="/bin/bash ${INSTALLATION_DIR}/NoAdsSpotify.sh"
+                RELAUNCH="/bin/bash ${INSTALLATION_DIR}/NoAdsSpotify.sh {$1}"
                 exec ${RELAUNCH}
             else
                 echo
@@ -51,8 +57,10 @@ else
 fi
 
 echo
-echo "Spotify Ads will be silenced while this program is running!"
-echo "This program was downloaded from https://gdi3d.github.io/mute-spotify-ads-mac-osx/"
+echo "Spotify Ads will be silenced while this program is running!."
+echo "This program was downloaded from https://gdi3d.github.io/mute-spotify-ads-mac-osx/ (check for documentation here)"
+echo "If you are using HDMI speakers please run this command like this: sh ~/MuteSpotifyAds/NoAdsSpotify.sh hdmi"
+echo
 echo "If the program is not working properly please open an issue at: https://github.com/gdi3d/mute-spotify-ads-mac-osx/issues/new"
 echo
 echo "Press control+c to close this program or close the terminal window"
@@ -82,7 +90,12 @@ log stream --process "mediaremoted" --type "log" --color none --style compact | 
                 # We should only store the volume value while a song is playing
                 # otherwise we'll be storing the volume value setted for the ad playback (low volume)
                 if [ $AD_DETECTED -eq 0 ]; then
-                    CURRENT_VOLUME=$(osascript -e "output volume of (get volume settings)")
+
+                    if [ $HDMI -eq 1 ]; then
+                        CURRENT_VOLUME=$(osascript -e 'tell application "Spotify" to set A to sound volume')
+                    else
+                        CURRENT_VOLUME=$(osascript -e "output volume of (get volume settings)")
+                    fi
                 fi
             fi
         elif [ $OSX_VERSION -ge $OS_MOJAVE ]; then
@@ -92,7 +105,12 @@ log stream --process "mediaremoted" --type "log" --color none --style compact | 
                 # We should only store the volume value while a song is playing
                 # otherwise we'll be storing the volume value setted for the ad playback (low volume)
                 if [ $AD_DETECTED -eq 0 ]; then
-                    CURRENT_VOLUME=$(osascript -e "output volume of (get volume settings)")
+                    
+                    if [ $HDMI -eq 1 ]; then
+                        CURRENT_VOLUME=$(osascript -e 'tell application "Spotify" to set A to sound volume')
+                    else
+                        CURRENT_VOLUME=$(osascript -e "output volume of (get volume settings)")
+                    fi
                 fi
             fi
         else
@@ -104,7 +122,12 @@ log stream --process "mediaremoted" --type "log" --color none --style compact | 
             # We should only store the volume value while a song is playing
             # otherwise we'll be storing the volume value setted for the ad playback (low volume)
             if [ $AD_DETECTED -eq 0 ]; then
-                CURRENT_VOLUME=$(osascript -e "output volume of (get volume settings)")
+                
+                if [ $HDMI -eq 1 ]; then
+                    CURRENT_VOLUME=$(osascript -e 'tell application "Spotify" to set A to sound volume')
+                else
+                    CURRENT_VOLUME=$(osascript -e "output volume of (get volume settings)")
+                fi
             fi
         fi
         
@@ -113,15 +136,26 @@ log stream --process "mediaremoted" --type "log" --color none --style compact | 
             if grep -q -E "$AD_REG" <<< "$STREAM_LINE"; then
                 # We found and Ad OMG!! Let turn the volume way down!
                 echo ">> 🔇 Ad found! Your volume will be set all the way down now!"
-                osascript -e "set volume without output muted output volume 0.1 --100%"
-                
+
+                if [ $HDMI -eq 1 ]; then
+                    # osascript -e 'tell application "iTunes" to set A to sound volume'
+                    osascript -e 'tell application "Spotify" to set sound volume to 0.1'
+                else
+                    osascript -e "set volume without output muted output volume 0.1 --100%"
+                fi
+
                 AD_DETECTED=1
                 EVENT_PRESENT=0
         
             elif grep -q -E "$SONG_REG" <<< "$STREAM_LINE"; then
                 # Ad is gone. Restore volume!
                 echo ">> 🔈 Song is playing 😀🕺💃. Audio back to normal"
-                osascript -e 'set volume output volume '$CURRENT_VOLUME' --100%'
+                
+                if [ $HDMI -eq 1 ]; then
+                    osascript -e 'tell application "Spotify" to set sound volume to '$CURRENT_VOLUME
+                else
+                    osascript -e 'set volume output volume '$CURRENT_VOLUME' --100%'
+                fi
 
                 AD_DETECTED=0
                 EVENT_PRESENT=0
