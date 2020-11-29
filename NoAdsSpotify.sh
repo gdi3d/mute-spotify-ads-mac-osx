@@ -1,5 +1,5 @@
 #!/bin/bash
-CURRENT_VER=6
+CURRENT_VER=7
 
 # Detect OSX version
 OSX_VERSION=$(defaults read loginwindow SystemVersionStampAsString)
@@ -79,7 +79,7 @@ EVENT_PRESENT=0 # switch to 1 when a the regex SPOTIFY_EVENT_xxxx matches
 CURRENT_VOLUME=$(osascript -e "output volume of (get volume settings)")
 AD_DETECTED=0 # switch to 1 when an ad is playing
 
-log stream --process "mediaremoted" --type "log" --color none --style compact | \
+log stream --process="mediaremoted" --type="log" --color="none" --style="compact" | \
     while read STREAM_LINE
     do
         # check for OS version and look for the event that tell us that
