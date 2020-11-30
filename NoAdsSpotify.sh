@@ -1,10 +1,13 @@
 #!/bin/bash
-CURRENT_VER=7
+CURRENT_VER=8
+
+set -e
 
 # Detect OSX version
 OSX_VERSION=$(defaults read loginwindow SystemVersionStampAsString)
 OSX_VERSION="${OSX_VERSION//.}"
 
+OS_BIGSUR=1101
 OS_CATALINA=10157
 OS_MOJAVE=10146
 OS_HIGH_SIERRA=10136
@@ -84,7 +87,7 @@ log stream --process="mediaremoted" --type="log" --color="none" --style="compact
     do
         # check for OS version and look for the event that tell us that
         # a new song/ad is playing
-        if [ $OSX_VERSION -ge $OS_CATALINA ]; then
+        if [ $OSX_VERSION -eq $OS_CATALINA ] || [ $OSX_VERSION -eq $OS_BIGSUR ]; then
             if grep -q -E "$SPOTIFY_EVENT_CATALINA" <<< "$STREAM_LINE"; then
                 EVENT_PRESENT=1
 
@@ -99,7 +102,7 @@ log stream --process="mediaremoted" --type="log" --color="none" --style="compact
                     fi
                 fi
             fi
-        elif [ $OSX_VERSION -ge $OS_MOJAVE ]; then
+        elif [ $OSX_VERSION -eq $OS_MOJAVE ]; then
             if grep -q -E "$SPOTIFY_EVENT_MOJAVE" <<< "$STREAM_LINE"; then
                 EVENT_PRESENT=1
                 
@@ -163,3 +166,6 @@ log stream --process="mediaremoted" --type="log" --color="none" --style="compact
         
         fi
     done
+
+# echo an error message before exiting on error
+trap 'echo ">>> 👎 Oops! Something failed and the program is not running. Please open a new issue at: https://github.com/gdi3d/mute-spotify-ads-mac-osx/issues/new and copy and paste the whole output of this window into yet so I can fix it."' EXIT
