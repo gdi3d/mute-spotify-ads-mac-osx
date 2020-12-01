@@ -1,5 +1,5 @@
 #!/bin/bash
-CURRENT_VER=8
+CURRENT_VER=9
 
 set -e
 
@@ -82,6 +82,10 @@ EVENT_PRESENT=0 # switch to 1 when a the regex SPOTIFY_EVENT_xxxx matches
 CURRENT_VOLUME=$(osascript -e "output volume of (get volume settings)")
 AD_DETECTED=0 # switch to 1 when an ad is playing
 
+# Set vars to prevent double print on alerts
+MSG_AD_ECHOED=0
+MSG_SONG_PLAYING_ECOHED=0
+
 log stream --process="mediaremoted" --type="log" --color="none" --style="compact" | \
     while read STREAM_LINE
     do
@@ -90,7 +94,7 @@ log stream --process="mediaremoted" --type="log" --color="none" --style="compact
         if [ $OSX_VERSION -eq $OS_CATALINA ] || [ $OSX_VERSION -eq $OS_BIGSUR ]; then
             if grep -q -E "$SPOTIFY_EVENT_CATALINA" <<< "$STREAM_LINE"; then
                 EVENT_PRESENT=1
-
+                
                 # We should only store the volume value while a song is playing
                 # otherwise we'll be storing the volume value setted for the ad playback (low volume)
                 if [ $AD_DETECTED -eq 0 ]; then
@@ -138,8 +142,12 @@ log stream --process="mediaremoted" --type="log" --color="none" --style="compact
         # Check if it's a song or an Ad and change the volume when needed
         if [ $EVENT_PRESENT -eq 1 ]; then
             if grep -q -E "$AD_REG" <<< "$STREAM_LINE"; then
-                # We found and Ad OMG!! Let turn the volume way down!
-                echo ">> 🔇 Ad found! Your volume will be set all the way down now!"
+
+                if [ $MSG_AD_ECHOED -eq 0 ]; then
+                    MSG_AD_ECHOED=1
+                    # We found and Ad OMG!! Let turn the volume way down!
+                    echo ">> 🔇 Ad found! Your volume will be set all the way down now until the next song!"
+                fi
 
                 if [ $HDMI -eq 1 ]; then
                     osascript -e 'tell application "Spotify" to set sound volume to 1'
@@ -149,11 +157,17 @@ log stream --process="mediaremoted" --type="log" --color="none" --style="compact
 
                 AD_DETECTED=1
                 EVENT_PRESENT=0
+                MSG_SONG_PLAYING_ECOHED=0
         
             elif grep -q -E "$SONG_REG" <<< "$STREAM_LINE"; then
-                # Ad is gone. Restore volume!
-                echo ">> 🔈 Song is playing 😀🕺💃. Audio back to normal"
                 
+                if [ $MSG_SONG_PLAYING_ECOHED -eq 0 ]; then
+                    # Ad is gone. Restore volume!
+                    MSG_SONG_PLAYING_ECOHED=1
+                    echo ">> 🔈 Songs are playing 😀🕺💃. Audio back to normal"
+                    
+                fi
+
                 if [ $HDMI -eq 1 ]; then
                     osascript -e 'tell application "Spotify" to set sound volume to '$CURRENT_VOLUME
                 else
@@ -162,6 +176,7 @@ log stream --process="mediaremoted" --type="log" --color="none" --style="compact
 
                 AD_DETECTED=0
                 EVENT_PRESENT=0
+                MSG_AD_ECHOED=0
             fi
         
         fi
