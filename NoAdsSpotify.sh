@@ -1,5 +1,5 @@
 #!/bin/bash
-CURRENT_VER=10
+CURRENT_VER=11
 
 set -e
 
@@ -7,6 +7,7 @@ set -e
 OSX_VERSION=$(defaults read loginwindow SystemVersionStampAsString)
 OSX_VERSION="${OSX_VERSION//.}"
 
+OS_BIGSUR_3=1123
 OS_BIGSUR_2=1121
 OS_BIGSUR=1101
 OS_CATALINA=10157
@@ -92,7 +93,7 @@ log stream --process="mediaremoted" --type="log" --color="none" --style="compact
     do
         # check for OS version and look for the event that tell us that
         # a new song/ad is playing
-        if [ $OSX_VERSION -eq $OS_CATALINA ] || [ $OSX_VERSION -eq $OS_BIGSUR ] || [ $OSX_VERSION -eq $OS_BIGSUR_2 ]; then
+        if [ $OSX_VERSION -eq $OS_CATALINA ] || [ $OSX_VERSION -eq $OS_BIGSUR ] || [ $OSX_VERSION -eq $OS_BIGSUR_2 ] || [ $OSX_VERSION -eq $OS_BIGSUR_3 ]; then
             if grep -q -E "$SPOTIFY_EVENT_CATALINA" <<< "$STREAM_LINE"; then
                 EVENT_PRESENT=1
                 
