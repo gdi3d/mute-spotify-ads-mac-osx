@@ -1,5 +1,5 @@
 #!/bin/bash
-CURRENT_VER=12
+CURRENT_VER=13
 
 set -e
 
@@ -34,13 +34,6 @@ OS_JAGUAR=100208
 OS_PUMA=100105
 OS_CHEETAH=100004
 
-# check for HDMI flag. In this case we will lower the volume of spotify application
-# instead of system audio
-HDMI=0
-if [ "$1" == "hdmi" ]; then
-    HDMI=1
-fi
-
 # check if version is up-to-date
 INSTALLATION_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 
@@ -71,8 +64,7 @@ fi
 
 echo
 echo "Spotify Ads will be silenced while this program is running!. (This works ONLY with the Spotify App, not the web version)"
-echo "This program was downloaded from https://gdi3d.github.io/mute-spotify-ads-mac-osx/ (check for documentation here)"
-echo "If you are using HDMI speakers please run this command like this: sh ~/MuteSpotifyAds/NoAdsSpotify.sh hdmi"
+echo "This program was downloaded from https://gdi3d.github.io/mute-spotify-ads-mac-osx/ (check for documentation)"
 echo
 echo "If the program is not working properly please open an issue at: https://github.com/gdi3d/mute-spotify-ads-mac-osx/issues/new"
 echo
@@ -113,12 +105,7 @@ log stream "${LOG_ARGUMENTS[@]}" | \
                 # We should only store the volume value while a song is playing
                 # otherwise we'll be storing the volume value setted for the ad playback (low volume)
                 if [ $AD_DETECTED -eq 0 ]; then
-
-                    if [ $HDMI -eq 1 ]; then
-                        CURRENT_VOLUME=$(osascript -e 'tell application "Spotify" to set A to sound volume')
-                    else
-                        CURRENT_VOLUME=$(osascript -e "output volume of (get volume settings)")
-                    fi
+                    CURRENT_VOLUME=$(osascript -e 'tell application "Spotify" to set A to sound volume')
                 fi
             fi
         elif [ $OSX_VERSION -eq $OS_MOJAVE ]; then
@@ -128,12 +115,7 @@ log stream "${LOG_ARGUMENTS[@]}" | \
                 # We should only store the volume value while a song is playing
                 # otherwise we'll be storing the volume value setted for the ad playback (low volume)
                 if [ $AD_DETECTED -eq 0 ]; then
-                    
-                    if [ $HDMI -eq 1 ]; then
-                        CURRENT_VOLUME=$(osascript -e 'tell application "Spotify" to set A to sound volume')
-                    else
-                        CURRENT_VOLUME=$(osascript -e "output volume of (get volume settings)")
-                    fi
+                    CURRENT_VOLUME=$(osascript -e 'tell application "Spotify" to set A to sound volume')
                 fi
             fi
         else
@@ -145,12 +127,7 @@ log stream "${LOG_ARGUMENTS[@]}" | \
             # We should only store the volume value while a song is playing
             # otherwise we'll be storing the volume value setted for the ad playback (low volume)
             if [ $AD_DETECTED -eq 0 ]; then
-                
-                if [ $HDMI -eq 1 ]; then
-                    CURRENT_VOLUME=$(osascript -e 'tell application "Spotify" to set A to sound volume')
-                else
-                    CURRENT_VOLUME=$(osascript -e "output volume of (get volume settings)")
-                fi
+                CURRENT_VOLUME=$(osascript -e 'tell application "Spotify" to set A to sound volume')
             fi
         fi
         
@@ -164,11 +141,7 @@ log stream "${LOG_ARGUMENTS[@]}" | \
                     echo ">> 🔇 Ad found! Your volume will be set all the way down now until the next song!"
                 fi
 
-                if [ $HDMI -eq 1 ]; then
-                    osascript -e 'tell application "Spotify" to set sound volume to 1'
-                else
-                    osascript -e "set volume without output muted output volume 0.1 --100%"
-                fi
+                osascript -e 'tell application "Spotify" to set sound volume to 1'
 
                 AD_DETECTED=1
                 EVENT_PRESENT=0
@@ -183,11 +156,7 @@ log stream "${LOG_ARGUMENTS[@]}" | \
                     
                 fi
 
-                if [ $HDMI -eq 1 ]; then
-                    osascript -e 'tell application "Spotify" to set sound volume to '$CURRENT_VOLUME
-                else
-                    osascript -e 'set volume output volume '$CURRENT_VOLUME' --100%'
-                fi
+                osascript -e 'tell application "Spotify" to set sound volume to '$CURRENT_VOLUME
 
                 AD_DETECTED=0
                 EVENT_PRESENT=0
