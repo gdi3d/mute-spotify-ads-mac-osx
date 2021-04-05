@@ -1,31 +1,38 @@
 #!/bin/bash
-CURRENT_VER=11
+CURRENT_VER=12
 
 set -e
 
 # Detect OSX version
 OSX_VERSION=$(defaults read loginwindow SystemVersionStampAsString)
-OSX_VERSION="${OSX_VERSION//.}"
+# Add leading zero to make all version have 
+# the same length of 6 characters
+pat="([0-9]{2})\.([0-9]{1,2})\.([0-9]{1,2})"
+[[ $OSX_VERSION =~ $pat ]] # $pat must be unquoted
+OSX_VERSION=$(printf %02d "${BASH_REMATCH[1]}" "${BASH_REMATCH[2]}" "${BASH_REMATCH[3]}")
 
-OS_BIGSUR_3=1123
-OS_BIGSUR_2=1121
-OS_BIGSUR=1101
-OS_CATALINA=10157
-OS_MOJAVE=10146
-OS_HIGH_SIERRA=10136
-OS_SIERRA=10126
-OS_EL_CAPITAN=10116
-OS_YOSEMITE=10105
-OS_MAVERICKS=1095
-OS_MOUNTAIN_LION=1085
-OS_LION=1075
-OS_SNOW_LEOPARD=1068
-OS_LEOPARD=1058
-OS_TIGER=10411
-OS_PANTHER=1039
-OS_JAGUAR=1028
-OS_PUMA=1015
-OS_CHEETAH=1004
+# Version are written down using
+# zero padding %02d to normalize length
+# to 6 characters
+OS_BIGSUR_3=110203
+OS_BIGSUR_2=110201
+OS_BIGSUR=110001
+OS_CATALINA=101507
+OS_MOJAVE=101406
+OS_HIGH_SIERRA=101306
+OS_SIERRA=101206
+OS_EL_CAPITAN=101106
+OS_YOSEMITE=101005
+OS_MAVERICKS=100905
+OS_MOUNTAIN_LION=100805
+OS_LION=100705
+OS_SNOW_LEOPARD=100608
+OS_LEOPARD=100508
+OS_TIGER=100411
+OS_PANTHER=100309
+OS_JAGUAR=100208
+OS_PUMA=100105
+OS_CHEETAH=100004
 
 # check for HDMI flag. In this case we will lower the volume of spotify application
 # instead of system audio
@@ -63,7 +70,7 @@ else
 fi
 
 echo
-echo "Spotify Ads will be silenced while this program is running!."
+echo "Spotify Ads will be silenced while this program is running!. (This works ONLY with the Spotify App, not the web version)"
 echo "This program was downloaded from https://gdi3d.github.io/mute-spotify-ads-mac-osx/ (check for documentation here)"
 echo "If you are using HDMI speakers please run this command like this: sh ~/MuteSpotifyAds/NoAdsSpotify.sh hdmi"
 echo
@@ -86,14 +93,20 @@ AD_DETECTED=0 # switch to 1 when an ad is playing
 
 # Set vars to prevent double print on alerts
 MSG_AD_ECHOED=0
-MSG_SONG_PLAYING_ECOHED=0
+MSG_SONG_PLAYING_ECHOED=0
 
-log stream --process="mediaremoted" --type="log" --color="none" --style="compact" | \
+LOG_ARGUMENTS_PROCESS=--process="mediaremoted"
+LOG_ARGUMENTS_TYPE=--type="log"
+LOG_ARGUMENTS_COLOR=--color="none"
+LOG_ARGUMENTS_STYLE=--style="compact"
+LOG_ARGUMENTS=( "$LOG_ARGUMENTS_PROCESS" "$LOG_ARGUMENTS_COLOR" "$LOG_ARGUMENTS_TYPE" "$LOG_ARGUMENTS_STYLE" )
+
+log stream "${LOG_ARGUMENTS[@]}" | \
     while read STREAM_LINE
     do
         # check for OS version and look for the event that tell us that
         # a new song/ad is playing
-        if [ $OSX_VERSION -eq $OS_CATALINA ] || [ $OSX_VERSION -eq $OS_BIGSUR ] || [ $OSX_VERSION -eq $OS_BIGSUR_2 ] || [ $OSX_VERSION -eq $OS_BIGSUR_3 ]; then
+        if [ $OSX_VERSION -ge $OS_CATALINA ]; then
             if grep -q -E "$SPOTIFY_EVENT_CATALINA" <<< "$STREAM_LINE"; then
                 EVENT_PRESENT=1
                 
@@ -159,13 +172,13 @@ log stream --process="mediaremoted" --type="log" --color="none" --style="compact
 
                 AD_DETECTED=1
                 EVENT_PRESENT=0
-                MSG_SONG_PLAYING_ECOHED=0
+                MSG_SONG_PLAYING_ECHOED=0
         
             elif grep -q -E "$SONG_REG" <<< "$STREAM_LINE"; then
                 
-                if [ $MSG_SONG_PLAYING_ECOHED -eq 0 ]; then
+                if [ $MSG_SONG_PLAYING_ECHOED -eq 0 ]; then
                     # Ad is gone. Restore volume!
-                    MSG_SONG_PLAYING_ECOHED=1
+                    MSG_SONG_PLAYING_ECHOED=1
                     echo ">> 🔈 Songs are playing 😀🕺💃. Audio back to normal"
                     
                 fi
@@ -185,4 +198,4 @@ log stream --process="mediaremoted" --type="log" --color="none" --style="compact
     done
 
 # echo an error message before exiting on error
-trap 'echo ">>> 👎 Oops! Something failed and the program is not running. Please open a new issue at: https://github.com/gdi3d/mute-spotify-ads-mac-osx/issues/new and copy and paste the whole output of this window into yet so I can fix it."' EXIT
+trap 'echo ">>> ⛔️ 👎 Oops! Something failed and the program is not running. Please open a new issue at: https://github.com/gdi3d/mute-spotify-ads-mac-osx/issues/new and copy and paste the whole output of this window into so I can fix it."' EXIT
