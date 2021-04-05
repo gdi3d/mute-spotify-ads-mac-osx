@@ -91,7 +91,8 @@ LOG_ARGUMENTS_PROCESS=--process="mediaremoted"
 LOG_ARGUMENTS_TYPE=--type="log"
 LOG_ARGUMENTS_COLOR=--color="none"
 LOG_ARGUMENTS_STYLE=--style="compact"
-LOG_ARGUMENTS=( "$LOG_ARGUMENTS_PROCESS" "$LOG_ARGUMENTS_COLOR" "$LOG_ARGUMENTS_TYPE" "$LOG_ARGUMENTS_STYLE" )
+LOG_ARGUMENTS_PREDICATE=--predicate='eventMessage contains[cd] "spotify.client"'
+LOG_ARGUMENTS=( "$LOG_ARGUMENTS_PROCESS" "$LOG_ARGUMENTS_COLOR" "$LOG_ARGUMENTS_TYPE" "$LOG_ARGUMENTS_STYLE" "$LOG_ARGUMENTS_PREDICATE" )
 
 log stream "${LOG_ARGUMENTS[@]}" | \
     while read STREAM_LINE
@@ -162,7 +163,6 @@ log stream "${LOG_ARGUMENTS[@]}" | \
                 EVENT_PRESENT=0
                 MSG_AD_ECHOED=0
             fi
-        
         fi
     done
 
