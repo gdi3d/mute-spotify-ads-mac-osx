@@ -1,5 +1,5 @@
 #!/bin/bash
-CURRENT_VER=13
+CURRENT_VER=14
 
 set -e
 
@@ -155,6 +155,8 @@ log stream "${LOG_ARGUMENTS[@]}" | \
                     MSG_SONG_PLAYING_ECHOED=1
                     echo ">> 🔈 Songs are playing 😀🕺💃. Audio back to normal"
                     
+                else
+                    CURRENT_VOLUME=$(osascript -e 'tell application "Spotify" to set A to sound volume')
                 fi
 
                 osascript -e 'tell application "Spotify" to set sound volume to '$CURRENT_VOLUME
