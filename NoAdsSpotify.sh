@@ -49,7 +49,7 @@ else
     LATEST_VER=$(curl -s https://raw.githubusercontent.com/gdi3d/mute-spotify-ads-mac-osx/master/NoAdsSpotify.sh | grep "CURRENT_VER=" | head -n1 | awk -F '=' '{print $2}')
     
     if [ $CURRENT_VER -ne $LATEST_VER ]; then
-        read -n 1 -p "A new version is available, will like to update? [y/N]" update
+        read -n 1 -p "A new version is available, will you like to update? [y/N]" update
         if [ -n "$update" ]; then
             if [ $update == "y" ]; then
                 curl https://raw.githubusercontent.com/gdi3d/mute-spotify-ads-mac-osx/master/NoAdsSpotify.sh > $INSTALLATION_DIR/NoAdsSpotify.sh
