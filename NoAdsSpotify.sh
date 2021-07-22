@@ -1,5 +1,5 @@
 #!/bin/bash
-CURRENT_VER=14
+CURRENT_VER=15
 
 set -e
 
@@ -7,10 +7,15 @@ set -e
 OSX_VERSION=$(defaults read loginwindow SystemVersionStampAsString)
 # Add leading zero to make all version have 
 # the same length of 6 characters
-pat="([0-9]{2})\.([0-9]{1,2})\.([0-9]{1,2})"
-[[ $OSX_VERSION =~ $pat ]] # $pat must be unquoted
-OSX_VERSION=$(printf %02d "${BASH_REMATCH[1]}" "${BASH_REMATCH[2]}" "${BASH_REMATCH[3]}")
-
+pat_1="([0-9]{1,2})\.([0-9]{1,2})\.([0-9]{1,2})"
+pat_2="([0-9]{1,2})\.([0-9]{1,2})"
+[[ $OSX_VERSION =~ $pat_1 ]] # $pat must be unquoted
+if [[ ${BASH_REMATCH[0]} == $OSX_VERSION ]]; then
+    OSX_VERSION=$(printf %02d "${BASH_REMATCH[1]}" "${BASH_REMATCH[2]}" "${BASH_REMATCH[3]}")
+else
+    [[ $OSX_VERSION =~ $pat_2 ]] # $pat must be unquoted
+    OSX_VERSION=$(printf %02d "${BASH_REMATCH[1]}" "${BASH_REMATCH[2]}" "00")
+fi
 # Version are written down using
 # zero padding %02d to normalize length
 # to 6 characters
