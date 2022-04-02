@@ -24,7 +24,6 @@ Then save with file name and location you want.
 
 ![Save](images/Run-on-Startup/Save.png)
 
-Then choose `Run` from `Run` selection.
 Open `System Preferences` -> `Users & Groups` -> `Login Items` and add the saved script to the `Startup` list.
 
 ![Login items](images/Run-on-Startup/Login_Items.png)
