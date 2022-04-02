@@ -22,6 +22,6 @@ Choose `/bin/bash` from `Shell` selection, then copy all the code from `NoAdsSpo
 
 Open `System Preferences` -> `Users & Groups` -> `Login Items` and add the saved script to the `Startup` list.
 
-![Login items](images/Run-on-Startup/Login_items.png)
+![Login items](images/Run-on-Startup/Login_Items.png)
 
 After that, whenever you log in to your Mac, your Spotify will be automatically muted when an Ad gets loaded.
