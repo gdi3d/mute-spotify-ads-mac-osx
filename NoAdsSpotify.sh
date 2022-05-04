@@ -76,7 +76,7 @@ echo
 echo "Press control+c to close this program or close the terminal window"
 echo
 
-sec2min() { printf ">> ⏳ %d mins %02d secs of ads silenced so far 😎" "$((10#$1 / 60))" "$((10#$1 % 60))"; }
+sec2min() { printf ">> ⏳ %d mins %02d secs of ads silenced so far 😎\r\n" "$((10#$1 / 60))" "$((10#$1 % 60))"; }
 
 # create stats file
 if ! test -f "stats.txt"; then
