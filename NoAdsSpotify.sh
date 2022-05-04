@@ -1,5 +1,5 @@
 #!/bin/bash
-CURRENT_VER=15
+CURRENT_VER=16
 
 set -e
 
@@ -76,6 +76,13 @@ echo
 echo "Press control+c to close this program or close the terminal window"
 echo
 
+sec2min() { printf ">> ⏳ %d mins %02d secs of ads silenced so far 😎" "$((10#$1 / 60))" "$((10#$1 % 60))"; }
+
+# create stats file
+if ! test -f "stats.txt"; then
+    echo 0 > stats.txt
+fi
+
 # Regex of events that will tell us that a new song/ad is playing
 SPOTIFY_EVENT_CATALINA="com\.spotify\.client.+nowPlayingItem.+{"
 SPOTIFY_EVENT_MOJAVE="com\.spotify\.client.+playbackQueue.+{"
@@ -145,6 +152,8 @@ log stream "${LOG_ARGUMENTS[@]}" | \
                     MSG_AD_ECHOED=1
                     # We found and Ad OMG!! Let turn the volume way down!
                     echo ">> 🔇 Ad found! Your volume will be set all the way down now until the next song!"
+                    # start counting. This will be added to the stats.txt file later on
+                    AD_TIME_START=$(date +%s)
                 fi
 
                 osascript -e 'tell application "Spotify" to set sound volume to 1'
@@ -159,7 +168,14 @@ log stream "${LOG_ARGUMENTS[@]}" | \
                     # Ad is gone. Restore volume!
                     MSG_SONG_PLAYING_ECHOED=1
                     echo ">> 🔈 Songs are playing 😀🕺💃. Audio back to normal"
-                    
+                    # add seconds to stats file
+                    if ! [ -z $AD_TIME_START ]; then 
+                        AD_TIME_END=$(date +%s)
+                        AD_ELAPSED_TIME=$(($AD_TIME_END-$AD_TIME_START))
+                        echo $(($(cat stats.txt)+$AD_ELAPSED_TIME)) > stats.txt
+                        SILENCE_STATS=$(cat stats.txt)
+                        sec2min $SILENCE_STATS
+                    fi
                 else
                     CURRENT_VOLUME=$(osascript -e 'tell application "Spotify" to set A to sound volume')
                 fi
