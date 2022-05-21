@@ -1,5 +1,5 @@
 #!/bin/bash
-CURRENT_VER=16
+CURRENT_VER=17
 
 set -e
 
@@ -106,6 +106,12 @@ LOG_ARGUMENTS_STYLE=--style="compact"
 LOG_ARGUMENTS_PREDICATE=--predicate='eventMessage contains[cd] "spotify.client"'
 LOG_ARGUMENTS=( "$LOG_ARGUMENTS_PROCESS" "$LOG_ARGUMENTS_COLOR" "$LOG_ARGUMENTS_TYPE" "$LOG_ARGUMENTS_STYLE" "$LOG_ARGUMENTS_PREDICATE" )
 
+# show notifications on desktop
+SHOW_SYSTEM_NOTIFICATIONS=0
+if ! [ -z $1  ] && [ $1 == "show" ]; then
+    SHOW_SYSTEM_NOTIFICATIONS=1
+fi
+
 log stream "${LOG_ARGUMENTS[@]}" | \
     while read STREAM_LINE
     do
@@ -152,6 +158,11 @@ log stream "${LOG_ARGUMENTS[@]}" | \
                     MSG_AD_ECHOED=1
                     # We found and Ad OMG!! Let turn the volume way down!
                     echo ">> 🔇 Ad found! Your volume will be set all the way down now until the next song!"
+                    
+                    if [ $SHOW_SYSTEM_NOTIFICATIONS -eq 1 ]; then
+                        osascript -e "display notification \"🔇 Ad found! Your volume will be set all the way down now until the next song!\" with title \"Muting Spotify Ad\""
+                    fi
+
                     # start counting. This will be added to the stats.txt file later on
                     AD_TIME_START=$(date +%s)
                 fi
@@ -168,6 +179,7 @@ log stream "${LOG_ARGUMENTS[@]}" | \
                     # Ad is gone. Restore volume!
                     MSG_SONG_PLAYING_ECHOED=1
                     echo ">> 🔈 Songs are playing 😀🕺💃. Audio back to normal"
+                    
                     # add seconds to stats file
                     if ! [ -z $AD_TIME_START ]; then 
                         AD_TIME_END=$(date +%s)
@@ -175,6 +187,11 @@ log stream "${LOG_ARGUMENTS[@]}" | \
                         echo $(($(cat stats.txt)+$AD_ELAPSED_TIME)) > stats.txt
                         SILENCE_STATS=$(cat stats.txt)
                         sec2min $SILENCE_STATS
+
+                        if [ $SHOW_SYSTEM_NOTIFICATIONS -eq 1 ]; then
+                            STAT_NOT=$(sec2min $SILENCE_STATS)
+                            osascript -e "display notification \"$STAT_NOT\" with title \"Songs are playing 😀🕺💃\""
+                        fi
                     fi
                 else
                     CURRENT_VOLUME=$(osascript -e 'tell application "Spotify" to set A to sound volume')
