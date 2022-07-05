@@ -1,5 +1,5 @@
 #!/bin/bash
-CURRENT_VER=17
+CURRENT_VER=18
 
 set -e
 
@@ -196,8 +196,9 @@ log stream "${LOG_ARGUMENTS[@]}" | \
                 else
                     CURRENT_VOLUME=$(osascript -e 'tell application "Spotify" to set A to sound volume')
                 fi
-
-                osascript -e 'tell application "Spotify" to set sound volume to '$CURRENT_VOLUME
+                
+                # Related to https://github.com/gdi3d/mute-spotify-ads-mac-osx/issues/25
+                osascript -e 'tell application "Spotify" to set sound volume to '$(($CURRENT_VOLUME+1))
 
                 AD_DETECTED=0
                 EVENT_PRESENT=0
