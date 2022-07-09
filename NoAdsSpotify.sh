@@ -1,5 +1,5 @@
 #!/bin/bash
-CURRENT_VER=18
+CURRENT_VER=19
 
 set -e
 
@@ -79,8 +79,20 @@ echo
 sec2min() { printf ">> ⏳ %d mins %02d secs of ads silenced so far 😎\r\n" "$((10#$1 / 60))" "$((10#$1 % 60))"; }
 
 # create stats file
-if ! test -f "stats.txt"; then
-    echo 0 > stats.txt
+# this file stores the amount of seconds of ads blocked by the script
+STATS_PATH=""
+if [ ! -z ${MUTE_SPOTIFY_STATS_PATH+x} ]; then
+    STATS_PATH=$MUTE_SPOTIFY_STATS_PATH
+fi
+
+if [ -z "$STATS_PATH" ]; then
+    STATS_PATH="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
+fi
+
+STATS_FILENAME="stats.txt"
+STATS_FULLPATH=$(echo $STATS_PATH"/"$STATS_FILENAME | tr -s /)
+if ! test -f $STATS_FULLPATH; then
+    echo 0 > $STATS_FULLPATH
 fi
 
 # Regex of events that will tell us that a new song/ad is playing
@@ -184,8 +196,8 @@ log stream "${LOG_ARGUMENTS[@]}" | \
                     if ! [ -z $AD_TIME_START ]; then 
                         AD_TIME_END=$(date +%s)
                         AD_ELAPSED_TIME=$(($AD_TIME_END-$AD_TIME_START))
-                        echo $(($(cat stats.txt)+$AD_ELAPSED_TIME)) > stats.txt
-                        SILENCE_STATS=$(cat stats.txt)
+                        echo $(($(cat $STATS_FULLPATH)+$AD_ELAPSED_TIME)) > $STATS_FULLPATH
+                        SILENCE_STATS=$(cat $STATS_FULLPATH)
                         sec2min $SILENCE_STATS
 
                         if [ $SHOW_SYSTEM_NOTIFICATIONS -eq 1 ]; then
