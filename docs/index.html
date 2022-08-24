@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="UTF-8">
+      <title>Mute Spotify Ads On Mac | Mute Mac (osx) computer audio when Spotify plays an AD</title>
+      <meta property="og:title" content="Mute Spotify Ads On Mac" />
+      <meta property="og:locale" content="en_US" />
+      <meta name="description" content="Mute Mac (osx) computer audio when Spotify plays an AD" />
+      <meta property="og:description" content="Mute Mac (osx) computer audio when Spotify plays an AD" />
+      <link rel="canonical" href="https://gdi3d.github.io/mute-spotify-ads-mac-osx/" />
+      <meta property="og:url" content="https://gdi3d.github.io/mute-spotify-ads-mac-osx/" />
+      <meta property="og:site_name" content="Mute Spotify Ads On Mac" />
+      <meta property="og:type" content="website" />
+      <meta property="og:image" content="https://github.com/gdi3d/mute-spotify-ads-mac-osx/master/docs/mute-spotify-ads-osx.jpg" />
+      <meta name="twitter:card" content="summary" />
+      <meta property="twitter:title" content="Mute Spotify Ads On Mac" />
+      <script type="application/ld+json">
+      {"@context":"https://schema.org","@type":"WebSite","description":"Mute Mac (osx) computer audio when Spotify plays an AD","headline":"Mute Spotify Ads On Mac","name":"Mute Spotify Ads On Mac","url":"https://gdi3d.github.io/mute-spotify-ads-mac-osx/"}</script>
+      <link rel="preconnect" href="https://fonts.gstatic.com">
+      <link rel="preload" href="https://fonts.googleapis.com/css?family=Open+Sans:400,700&display=swap" as="style" type="text/css" crossorigin>
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta name="theme-color" content="#157878">
+      <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+      <link rel="stylesheet" href="style.css">
+  </head>
+  <body>
+    <header class="page-header" role="banner">
+      <h1 class="project-name">Mute Spotify Ads On Mac</h1>
+      <h2 class="project-tagline">Mute Mac (osx) computer audio when Spotify plays an AD</h2>
+        <a href="https://github.com/gdi3d/mute-spotify-ads-mac-osx" class="btn">View on GitHub</a>
+    </header>
+
+    <main id="content" class="main-content" role="main">
+      <table>
+  <tbody>
+    <tr>
+      <td><a href="#mute-spotify-ads-on-mac">English</a></td>
+      <td><a href="#silenciar-anuncios-de-spotify-en-mac-os-x">Español</a></td>
+    </tr>
+  </tbody>
+</table>
+
+<h1 id="mute-spotify-ads-on-mac">Mute Spotify Ads On Mac</h1>
+<p>I use Spotify on my computer from time to time but I hate when the Ads start playing.</p>
+
+<p>I don’t mind having a <strong>break</strong> between a few songs, but I don’t wanna hear the Ads, so I decided to create a small script to hack it.</p>
+
+<p><strong>Important: This script works ONLY with the App version of Spotify on Mac. It doesn’t work on the web version</strong></p>
+
+<h1 id="how-to-install-it">How to install it</h1>
+
+<script id="asciicast-405918" src="https://asciinema.org/a/405918.js" async=""></script>
+
+<ol>
+  <li>Open the application <strong>Terminal</strong>. Search it inside your <strong>Applications</strong> folder or using <strong>Spotlight search</strong> (cmd+space bar) and type <strong>terminal.app</strong></li>
+  <li>
+    <p>Inside that white window (that’s the terminal app) paste this command and then hit enter</p>
+
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mkdir -p ~/MuteSpotifyAds &amp;&amp; curl https://raw.githubusercontent.com/gdi3d/mute-spotify-ads-mac-osx/master/NoAdsSpotify.sh &gt; ~/MuteSpotifyAds/NoAdsSpotify.sh
+</code></pre></div>    </div>
+  </li>
+  <li>This will create a new folder inside your Home folder called <code class="language-plaintext highlighter-rouge">MuteSpotifyAds</code> and will place a new file called <code class="language-plaintext highlighter-rouge">NoAdsSpotify.sh</code></li>
+  <li>
+    <p>To run the program just copy and paste the code below in the terminal and hit enter</p>
+
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sh ~/MuteSpotifyAds/NoAdsSpotify.sh
+</code></pre></div>    </div>
+
+    <p>If you want to enable desktop notifications run this</p>
+
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sh ~/MuteSpotifyAds/NoAdsSpotify.sh show
+</code></pre></div>    </div>
+  </li>
+  <li>Open Spotify App and enjoy!</li>
+  <li>After you’re done listening to your tracks you can close this application by <strong>closing the terminal app</strong>. <strong>Remember: You need to run this program the next time you open Spotify if you want to mute the Ads (steps 1 and 4)</strong></li>
+</ol>
+
+<h1 id="stats-file-advanced-users">Stats file (Advanced Users)</h1>
+
+<p>The script generates a file called <code class="language-plaintext highlighter-rouge">stats.txt</code> that stores the amount of seconds of ads blocked.</p>
+
+<p>By default the file is created in the same folder where script is installed. You can change the location of this file by defining the environment variable <code class="language-plaintext highlighter-rouge">MUTE_SPOTIFY_STATS_PATH</code> using the full path. Ex: <code class="language-plaintext highlighter-rouge">/Users/joe/.local/mute-spotify-ads-mac-osx</code></p>
+
+<h1 id="how-to-uninstall-it">How to uninstall it?</h1>
+<ol>
+  <li>Go to your home folder (the one with the 🏠 icon) using the <strong>Finder</strong></li>
+  <li>Make sure you’re not running the program (step 6 in the list above)</li>
+  <li>Find the folder called <code class="language-plaintext highlighter-rouge">MuteSpotifyAds</code> and delete it.</li>
+</ol>
+
+<h1 id="why-not-blocking-ads-instead">Why not blocking Ads instead???</h1>
+
+<p>I used to have all the Spotify Ads DNS blocked but that stopped working.</p>
+
+<p>Besides, I was bored that Saturday noon and I wanted to give it a try.</p>
+
+<h1 id="how-does-it-work">How does it work?</h1>
+
+<ol>
+  <li>Using OSX log system I can listen to Spotify events.</li>
+  <li>Read the events and check if an Ad is about to be played.</li>
+  <li>If the event is an Ad about to be played <strong>automatically turn down the volume way down</strong> (if we mute it Spotify will detect it and stop working properly after a while).</li>
+  <li>If the next event is a song, <strong>restore volume</strong>.</li>
+</ol>
+
+<h1 id="repository">Repository</h1>
+<p>Here’s the repo if you want to know more:
+<a href="https://github.com/gdi3d/mute-spotify-ads-mac-osx">https://github.com/gdi3d/mute-spotify-ads-mac-osx</a></p>
+
+<h1 id="need-help">Need help?</h1>
+
+<p>Contact me <a href="https://www.linkedin.com/in/adrianogalello/">on my LinkedIn</a>, feel free to send me a message.</p>
+
+<hr />
+
+<h1 id="silenciar-anuncios-de-spotify-en-mac-os-x">Silenciar Anuncios de Spotify en Mac OS X</h1>
+<p>Algunas veces utilizo Spotify pero no soporto los anuncios que ponen.</p>
+
+<p>No me molesta tener una <strong>pausa</strong> después de algunos temas, pero no quiero escuchar esos anuncios feos. Así que decidí crear un script para solucionarlo.</p>
+
+<p><strong>Importante: Este script SOLO FUNCIONA para la aplicación de Spotify en Mac. No funciona para la versión web</strong></p>
+
+<h1 id="como-instalar">Como Instalar</h1>
+
+<script id="asciicast-405918" src="https://asciinema.org/a/405918.js" async=""></script>
+
+<ol>
+  <li>Abre la aplicación <strong>Terminal</strong>. Busca dentro de tu carpeta de Aplicaciones o utilizar el buscador (cmd+barra espaciadora) y escribe <strong>terminal.app</strong></li>
+  <li>
+    <p>Dentro de esta ventana con fondo blanco pega el comando de aquí abajo y presiona enter</p>
+
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mkdir -p ~/MuteSpotifyAds &amp;&amp; curl https://raw.githubusercontent.com/gdi3d/mute-spotify-ads-mac-osx/master/NoAdsSpotify.sh &gt; ~/MuteSpotifyAds/NoAdsSpotify.sh
+</code></pre></div>    </div>
+  </li>
+  <li>Esto creará una nueva carpeta en tu <strong>Home</strong> llamada <code class="language-plaintext highlighter-rouge">MuteSpotifyAds</code> y dentro tendrá una archivo llamado <code class="language-plaintext highlighter-rouge">NoAdsSpotify.sh</code></li>
+  <li>
+    <p>Para correr el programa copia y pega el comando de aquí abajo dentro de la misma terminal y presiona enter</p>
+
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sh ~/MuteSpotifyAds/NoAdsSpotify.sh
+</code></pre></div>    </div>
+
+    <p>Si quieres habilitar las notificaciones usa este comando</p>
+
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sh ~/MuteSpotifyAds/NoAdsSpotify.sh show
+</code></pre></div>    </div>
+  </li>
+  <li>¡Abre la aplicación de Spotify App y listo!</li>
+  <li>Cuando acabes de escuchar tu música puedes cerrar el programa. Simplemente cierra la ventana de la terminal donde está ejecutándose el programa. <strong>Recuerda que la próxima vez que quieras escuchar música sin anuncios deberás volver a correr el programa (Pasos 1 y 4 solamente)</strong></li>
+</ol>
+
+<h1 id="archivo-de-estadisticas-usuarios-avanzados">Archivo de estadisticas (Usuarios avanzados)</h1>
+
+<p>El script genera un archivo llamado <code class="language-plaintext highlighter-rouge">stats.txt</code> que guarda la cantidad de segundos de anuncios bloquedos por el script.</p>
+
+<p>Por defecto el archivo es creado en la misma carpeta donde se instala el script. Puedes cambiar esta ubicación definiendo la variable de entorno <code class="language-plaintext highlighter-rouge">MUTE_SPOTIFY_STATS_PATH</code> y definiendo el path absoluto. Ej: <code class="language-plaintext highlighter-rouge">/Users/joe/.local/mute-spotify-ads-mac-osx</code></p>
+
+<h1 id="cómo-desinstalarlo">¿Cómo desinstalarlo?</h1>
+<ol>
+  <li>Ve a tu carpeta de Home (🏠)</li>
+  <li>Asegurate de que este programa no esté corriendo (Paso 6 en la lista anterior)</li>
+  <li>Busca una carpeta llamada <code class="language-plaintext highlighter-rouge">MuteSpotifyAds</code> y eliminala.</li>
+</ol>
+
+<h1 id="por-qué-no-bloquear-los-anuncios-en-vez-de-silenciarlos">¿¿¿Por qué no bloquear los anuncios en vez de silenciarlos???</h1>
+
+<p>Solía tener bloqueados todos los anuncios a través de DNS pero después de un tiempo dejó de funcionar.</p>
+
+<p>Además, era Domingo, estaba aburrido y queria probar si podía hacerlo de esta forma.</p>
+
+<h1 id="cómo-funciona">¿Cómo funciona?</h1>
+
+<ol>
+  <li>Usando los registros de log de OS X puedo observar los eventos lanzados por Spotify.</li>
+  <li>El programa lee los eventos y comprueba si lo que está por sonar es un anuncio o un tema.</li>
+  <li>En caso de que sea un anuncio <strong>automáticamente se baja el volumen de Spotify a casi cero</strong> (Si lo ponemos en 0 Spotify lo detecta y deja de funcionar después de un tiempo).</li>
+  <li>Cuando el anuncio acaba y comienza una nueva canción <strong>se vuelve a subir el volumen</strong></li>
+</ol>
+
+<h1 id="repositorio">Repositorio</h1>
+<p>Aquí está el repo si quieres saber más:
+<a href="https://github.com/gdi3d/mute-spotify-ads-mac-osx">https://github.com/gdi3d/mute-spotify-ads-mac-osx</a></p>
+
+<h1 id="necesitas-ayuda">¿Necesitas ayuda?</h1>
+
+<p>Contactame <a href="https://www.linkedin.com/in/adrianogalello/">en mi LinkedIn</a> y enviarme un mensaje.</p>
+
+<script async="" src="https://www.googletagmanager.com/gtag/js?id=G-MB1R249T41"></script>
+
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-MB1R249T41');
+</script>
+    </main>
+  </body>
+</html>
