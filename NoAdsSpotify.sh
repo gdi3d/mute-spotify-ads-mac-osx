@@ -102,6 +102,7 @@ SPOTIFY_EVENT_MOJAVE="com\.spotify\.client.+playbackQueue.+{"
 # Regex to detec ads
 AD_REG="albumName = \"\";"
 SONG_REG="albumName = (\w+|\".+\");"
+PRIVATE_REG="nowPlayingItem to <<private>>"
 
 EVENT_PRESENT=0 # switch to 1 when a the regex SPOTIFY_EVENT_xxxx matches
 CURRENT_VOLUME=$(osascript -e "output volume of (get volume settings)")
@@ -138,6 +139,8 @@ log stream "${LOG_ARGUMENTS[@]}" | \
                 if [ $AD_DETECTED -eq 0 ]; then
                     CURRENT_VOLUME=$(osascript -e 'tell application "Spotify" to set A to sound volume')
                 fi
+            elif grep -q -E "$PRIVATE_REG" <<< "$STREAM_LINE"; then
+                echo ">>> ⚠️  👎 Warning! Muting of ads may not be working due to private data not being visible in logs. Please install https://georgegarside.com/blog/macos/sierra-console-private/enable-unified-log-private-data.mobileconfig"
             fi
         elif [ $OSX_VERSION -eq $OS_MOJAVE ]; then
             if grep -q -E "$SPOTIFY_EVENT_MOJAVE" <<< "$STREAM_LINE"; then
