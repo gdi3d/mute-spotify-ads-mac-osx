@@ -1,43 +1,7 @@
 #!/bin/bash
-CURRENT_VER=19
+CURRENT_VER=20
 
 set -e
-
-# Detect OSX version
-OSX_VERSION=$(defaults read loginwindow SystemVersionStampAsString)
-# Add leading zero to make all version have 
-# the same length of 6 characters
-pat_1="([0-9]{1,2})\.([0-9]{1,2})\.([0-9]{1,2})"
-pat_2="([0-9]{1,2})\.([0-9]{1,2})"
-[[ $OSX_VERSION =~ $pat_1 ]] # $pat must be unquoted
-if [[ ${BASH_REMATCH[0]} == $OSX_VERSION ]]; then
-    OSX_VERSION=$(printf %02d "${BASH_REMATCH[1]}" "${BASH_REMATCH[2]}" "${BASH_REMATCH[3]}")
-else
-    [[ $OSX_VERSION =~ $pat_2 ]] # $pat must be unquoted
-    OSX_VERSION=$(printf %02d "${BASH_REMATCH[1]}" "${BASH_REMATCH[2]}" "00")
-fi
-# Version are written down using
-# zero padding %02d to normalize length
-# to 6 characters
-OS_BIGSUR_3=110203
-OS_BIGSUR_2=110201
-OS_BIGSUR=110001
-OS_CATALINA=101507
-OS_MOJAVE=101406
-OS_HIGH_SIERRA=101306
-OS_SIERRA=101206
-OS_EL_CAPITAN=101106
-OS_YOSEMITE=101005
-OS_MAVERICKS=100905
-OS_MOUNTAIN_LION=100805
-OS_LION=100705
-OS_SNOW_LEOPARD=100608
-OS_LEOPARD=100508
-OS_TIGER=100411
-OS_PANTHER=100309
-OS_JAGUAR=100208
-OS_PUMA=100105
-OS_CHEETAH=100004
 
 # check if version is up-to-date
 INSTALLATION_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
@@ -67,15 +31,6 @@ else
     fi
 fi
 
-echo
-echo "Spotify Ads will be silenced while this program is running!. (This works ONLY with the Spotify App, not the web version)"
-echo "This program was downloaded from https://gdi3d.github.io/mute-spotify-ads-mac-osx/ (check for documentation)"
-echo
-echo "If the program is not working properly please open an issue at: https://github.com/gdi3d/mute-spotify-ads-mac-osx/issues/new"
-echo
-echo "Press control+c to close this program or close the terminal window"
-echo
-
 sec2min() { printf ">> ⏳ %d mins %02d secs of ads silenced so far 😎\r\n" "$((10#$1 / 60))" "$((10#$1 % 60))"; }
 
 # create stats file
@@ -95,128 +50,92 @@ if ! test -f $STATS_FULLPATH; then
     echo 0 > $STATS_FULLPATH
 fi
 
-# Regex of events that will tell us that a new song/ad is playing
-SPOTIFY_EVENT_CATALINA="com\.spotify\.client.+nowPlayingItem.+{"
-SPOTIFY_EVENT_MOJAVE="com\.spotify\.client.+playbackQueue.+{"
-
-# Regex to detec ads
-AD_REG="albumName = \"\";"
-SONG_REG="albumName = (\w+|\".+\");"
-
-EVENT_PRESENT=0 # switch to 1 when a the regex SPOTIFY_EVENT_xxxx matches
-CURRENT_VOLUME=$(osascript -e "output volume of (get volume settings)")
-AD_DETECTED=0 # switch to 1 when an ad is playing
-
-# Set vars to prevent double print on alerts
-MSG_AD_ECHOED=0
-MSG_SONG_PLAYING_ECHOED=0
-
-LOG_ARGUMENTS_PROCESS=--process="mediaremoted"
-LOG_ARGUMENTS_TYPE=--type="log"
-LOG_ARGUMENTS_COLOR=--color="none"
-LOG_ARGUMENTS_STYLE=--style="compact"
-LOG_ARGUMENTS_PREDICATE=--predicate='eventMessage contains[cd] "spotify.client"'
-LOG_ARGUMENTS=( "$LOG_ARGUMENTS_PROCESS" "$LOG_ARGUMENTS_COLOR" "$LOG_ARGUMENTS_TYPE" "$LOG_ARGUMENTS_STYLE" "$LOG_ARGUMENTS_PREDICATE" )
-
 # show notifications on desktop
 SHOW_SYSTEM_NOTIFICATIONS=0
 if ! [ -z $1  ] && [ $1 == "show" ]; then
     SHOW_SYSTEM_NOTIFICATIONS=1
 fi
 
-log stream "${LOG_ARGUMENTS[@]}" | \
-    while read STREAM_LINE
-    do
-        # check for OS version and look for the event that tell us that
-        # a new song/ad is playing
-        if [ $OSX_VERSION -ge $OS_CATALINA ]; then
-            if grep -q -E "$SPOTIFY_EVENT_CATALINA" <<< "$STREAM_LINE"; then
-                EVENT_PRESENT=1
-                
-                # We should only store the volume value while a song is playing
-                # otherwise we'll be storing the volume value setted for the ad playback (low volume)
-                if [ $AD_DETECTED -eq 0 ]; then
-                    CURRENT_VOLUME=$(osascript -e 'tell application "Spotify" to set A to sound volume')
-                fi
-            fi
-        elif [ $OSX_VERSION -eq $OS_MOJAVE ]; then
-            if grep -q -E "$SPOTIFY_EVENT_MOJAVE" <<< "$STREAM_LINE"; then
-                EVENT_PRESENT=1
-                
-                # We should only store the volume value while a song is playing
-                # otherwise we'll be storing the volume value setted for the ad playback (low volume)
-                if [ $AD_DETECTED -eq 0 ]; then
-                    CURRENT_VOLUME=$(osascript -e 'tell application "Spotify" to set A to sound volume')
-                fi
-            fi
-        else
-            # We won't be searching for the event that's about to trigger
-            # the ad since it's not present on this version of the OSX.
-            # Related to: https://github.com/gdi3d/mute-spotify-ads-mac-osx/issues/2
-            EVENT_PRESENT=1
-              
-            # We should only store the volume value while a song is playing
-            # otherwise we'll be storing the volume value setted for the ad playback (low volume)
-            if [ $AD_DETECTED -eq 0 ]; then
-                CURRENT_VOLUME=$(osascript -e 'tell application "Spotify" to set A to sound volume')
-            fi
-        fi
+# How many seconds before checking if and ad is playing.
+# Setting this to a lower value will increase CPU usage
+INTERVAL_CHECK_TIME_SEC=0.5
+
+# Set vars to prevent double print on alerts
+MSG_AD_ECHOED=0
+MSG_SONG_PLAYING_ECHOED=0
+
+CURRENT_VOLUME=$(osascript -e 'tell application "Spotify" to set A to sound volume')
+
+echo
+echo "Spotify Ads will be silenced while this program is running!. (This works ONLY with the Spotify App, not the web version)"
+echo "This program was downloaded from https://gdi3d.github.io/mute-spotify-ads-mac-osx/ (check for documentation)"
+echo
+echo "If the program is not working properly please open an issue at: https://github.com/gdi3d/mute-spotify-ads-mac-osx/issues/new"
+echo
+echo "Press control+c to close this program or close the terminal window"
+echo
+
+while :
+    do 
+
+        # Thanks to @bbbco for this cool tip on how to use 
+        # osascript to get the current track url
+        AD_DETECTED=$(osascript -e 'tell application "Spotify" to get spotify url of current track'|cut -d ":" -f 2)
         
-        # Check if it's a song or an Ad and change the volume when needed
-        if [ $EVENT_PRESENT -eq 1 ]; then
-            if grep -q -E "$AD_REG" <<< "$STREAM_LINE"; then
+        if [ $AD_DETECTED == 'ad' ]; then
 
-                if [ $MSG_AD_ECHOED -eq 0 ]; then
-                    MSG_AD_ECHOED=1
-                    # We found and Ad OMG!! Let turn the volume way down!
-                    echo ">> 🔇 Ad found! Your volume will be set all the way down now until the next song!"
-                    
-                    if [ $SHOW_SYSTEM_NOTIFICATIONS -eq 1 ]; then
-                        osascript -e "display notification \"🔇 Ad found! Your volume will be set all the way down now until the next song!\" with title \"Muting Spotify Ad\""
-                    fi
-
-                    # start counting. This will be added to the stats.txt file later on
-                    AD_TIME_START=$(date +%s)
-                fi
-
+            if [ $MSG_AD_ECHOED -eq 0 ]; then
+                
+                # Ad found! Lower volume
                 osascript -e 'tell application "Spotify" to set sound volume to 1'
 
-                AD_DETECTED=1
-                EVENT_PRESENT=0
-                MSG_SONG_PLAYING_ECHOED=0
-        
-            elif grep -q -E "$SONG_REG" <<< "$STREAM_LINE"; then
+                MSG_AD_ECHOED=1
                 
-                if [ $MSG_SONG_PLAYING_ECHOED -eq 0 ]; then
-                    # Ad is gone. Restore volume!
-                    MSG_SONG_PLAYING_ECHOED=1
-                    echo ">> 🔈 Songs are playing 😀🕺💃. Audio back to normal"
-                    
-                    # add seconds to stats file
-                    if ! [ -z $AD_TIME_START ]; then 
-                        AD_TIME_END=$(date +%s)
-                        AD_ELAPSED_TIME=$(($AD_TIME_END-$AD_TIME_START))
-                        echo $(($(cat $STATS_FULLPATH)+$AD_ELAPSED_TIME)) > $STATS_FULLPATH
-                        SILENCE_STATS=$(cat $STATS_FULLPATH)
-                        sec2min $SILENCE_STATS
+                echo ">> 🔇 Ad found! Your volume will be set all the way down now until the next song!"
 
-                        if [ $SHOW_SYSTEM_NOTIFICATIONS -eq 1 ]; then
-                            STAT_NOT=$(sec2min $SILENCE_STATS)
-                            osascript -e "display notification \"$STAT_NOT\" with title \"Songs are playing 😀🕺💃\""
-                        fi
-                    fi
-                else
-                    CURRENT_VOLUME=$(osascript -e 'tell application "Spotify" to set A to sound volume')
+                if [ $SHOW_SYSTEM_NOTIFICATIONS -eq 1 ]; then
+                    osascript -e "display notification \"🔇 Ad found! Your volume will be set all the way down now until the next song!\" with title \"Muting Spotify Ad\""
                 fi
-                
+
+                # start counting. This will be added to the stats.txt file later on
+                AD_TIME_START=$(date +%s)
+            fi
+
+            MSG_SONG_PLAYING_ECHOED=0
+
+        else
+
+            if [ $MSG_SONG_PLAYING_ECHOED -eq 0 ]; then
+                    
+                # Ad is gone. Restore volume!
                 # Related to https://github.com/gdi3d/mute-spotify-ads-mac-osx/issues/25
                 osascript -e 'tell application "Spotify" to set sound volume to '$(($CURRENT_VOLUME+1))
 
-                AD_DETECTED=0
-                EVENT_PRESENT=0
-                MSG_AD_ECHOED=0
+                MSG_SONG_PLAYING_ECHOED=1
+                echo ">> 🔈 Songs are playing 😀🕺💃. Audio back to normal"
+                
+                # add seconds to stats file
+                if ! [ -z $AD_TIME_START ]; then 
+                    AD_TIME_END=$(date +%s)
+                    AD_ELAPSED_TIME=$(($AD_TIME_END-$AD_TIME_START))
+                    echo $(($(cat $STATS_FULLPATH)+$AD_ELAPSED_TIME)) > $STATS_FULLPATH
+                    SILENCE_STATS=$(cat $STATS_FULLPATH)
+                    sec2min $SILENCE_STATS
+
+                    if [ $SHOW_SYSTEM_NOTIFICATIONS -eq 1 ]; then
+                        STAT_NOT=$(sec2min $SILENCE_STATS)
+                        osascript -e "display notification \"$STAT_NOT\" with title \"Songs are playing 😀🕺💃\""
+                    fi
+                fi
             fi
+            
+            CURRENT_VOLUME=$(osascript -e 'tell application "Spotify" to set A to sound volume')
+            MSG_AD_ECHOED=0
+
         fi
+
+        # Wait before check again
+        sleep $INTERVAL_CHECK_TIME_SEC
     done
 
 # echo an error message before exiting on error
