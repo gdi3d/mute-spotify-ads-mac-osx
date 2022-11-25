@@ -97,11 +97,12 @@
 <h1 id="how-does-it-work">How does it work?</h1>
 
 <ol>
-  <li>Using OSX log system I can listen to Spotify events.</li>
-  <li>Read the events and check if an Ad is about to be played.</li>
-  <li>If the event is an Ad about to be played <strong>automatically turn down the volume way down</strong> (if we mute it Spotify will detect it and stop working properly after a while).</li>
-  <li>If the next event is a song, <strong>restore volume</strong>.</li>
+  <li>Using osascript we detect the name of the track being played every half second.</li>
+  <li>If the track is an Ad <strong>automatically turn down the volume way down</strong> (if we mute it Spotify will detect it and stop working properly after a while).</li>
+  <li>If the next track is a song, <strong>restore volume</strong>.</li>
 </ol>
+
+<p>Kudos to <a href="https://github.com/bbbco">@bbbco</a> for providing a new solution after OS Ventura 13 release 💪💪</p>
 
 <h1 id="repository">Repository</h1>
 <p>Here’s the repo if you want to know more:
@@ -170,11 +171,12 @@
 <h1 id="cómo-funciona">¿Cómo funciona?</h1>
 
 <ol>
-  <li>Usando los registros de log de OS X puedo observar los eventos lanzados por Spotify.</li>
-  <li>El programa lee los eventos y comprueba si lo que está por sonar es un anuncio o un tema.</li>
+  <li>Usando osascript puedo leer, cada medio segundo, el nombre del track que esta sonando.</li>
   <li>En caso de que sea un anuncio <strong>automáticamente se baja el volumen de Spotify a casi cero</strong> (Si lo ponemos en 0 Spotify lo detecta y deja de funcionar después de un tiempo).</li>
-  <li>Cuando el anuncio acaba y comienza una nueva canción <strong>se vuelve a subir el volumen</strong></li>
+  <li>En caso de que sea una canción <strong>se vuelve a subir el volumen</strong></li>
 </ol>
+
+<p>Kudos a <a href="https://github.com/bbbco">@bbbco</a> por ayudarme a encontrar una nueva solución luego del release de OS Ventura 13 💪💪</p>
 
 <h1 id="repositorio">Repositorio</h1>
 <p>Aquí está el repo si quieres saber más:
