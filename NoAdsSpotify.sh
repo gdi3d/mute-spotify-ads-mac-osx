@@ -1,5 +1,5 @@
 #!/bin/bash
-CURRENT_VER=20
+CURRENT_VER=21
 
 set -e
 
@@ -82,6 +82,13 @@ while :
         # osascript to get the current track url
         AD_DETECTED=$(osascript -e 'tell application "Spotify" to get spotify url of current track'|cut -d ":" -f 2)
         
+        # prevent 'if unary operator expected' error
+        # in case spotify is closed
+        if [ -z $AD_DETECTED ]; then
+            sleep 5
+            continue
+        fi
+
         if [ $AD_DETECTED == 'ad' ]; then
 
             if [ $MSG_AD_ECHOED -eq 0 ]; then
