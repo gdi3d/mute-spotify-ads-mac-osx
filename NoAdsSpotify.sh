@@ -1,5 +1,5 @@
 #!/bin/bash
-CURRENT_VER=21
+CURRENT_VER=22
 
 set -e
 
@@ -31,7 +31,45 @@ else
     fi
 fi
 
-sec2min() { printf ">> ⏳ %d mins %02d secs of ads silenced so far 😎\r\n" "$((10#$1 / 60))" "$((10#$1 % 60))"; }
+rendertimer(){
+    # convert seconds to Days, Hours, Minutes, Seconds
+    # thanks to Nikolay Sidorov and https://www.shellscript.sh/tips/hms/
+    local parts seconds D H M S D_TAG H_TAG M_TAG S_TAG
+    seconds=${1:-0}
+    # all days
+    D=$((seconds / 60 / 60 / 24))
+    # all hours
+    H=$((seconds / 60 / 60))
+    H=$((H % 24))
+    # all minutes
+    M=$((seconds / 60))
+    M=$((M % 60))
+    # all seconds
+    S=$((seconds % 60))
+
+    # set up "x day(s), x hour(s), x minute(s) and x second(s)" language
+    [ "$D" -eq "1" ] && D_TAG="day" || D_TAG="days"
+    [ "$H" -eq "1" ] && H_TAG="hour" || H_TAG="hours"
+    [ "$M" -eq "1" ] && M_TAG="min" || M_TAG="mins"
+    [ "$S" -eq "1" ] && S_TAG="sec" || S_TAG="secs"
+
+    # put parts from above that exist into an array for sentence formatting
+    parts=()
+    [ "$D" -gt "0" ] && parts+=("$D $D_TAG")
+    [ "$H" -gt "0" ] && parts+=("$H $H_TAG")
+    [ "$M" -gt "0" ] && parts+=("$M $M_TAG")
+    [ "$S" -gt "0" ] && parts+=("$S $S_TAG")
+
+    # construct the sentence
+    result=">> ⏳ "
+    lengthofparts=${#parts[@]}
+    for (( currentpart = 0; currentpart < lengthofparts; currentpart++ )); do
+        result+="${parts[$currentpart]}"
+        # if current part is not the last portion of the sentence, append a comma
+        [ $currentpart -ne $((lengthofparts-1)) ] && result+=", "
+    done
+    echo "$result of ads silenced so far 😎\r\n"
+}
 
 # create stats file
 # this file stores the amount of seconds of ads blocked by the script
@@ -127,10 +165,10 @@ while :
                     AD_ELAPSED_TIME=$(($AD_TIME_END-$AD_TIME_START))
                     echo $(($(cat $STATS_FULLPATH)+$AD_ELAPSED_TIME)) > $STATS_FULLPATH
                     SILENCE_STATS=$(cat $STATS_FULLPATH)
-                    sec2min $SILENCE_STATS
+                    rendertimer $SILENCE_STATS
 
                     if [ $SHOW_SYSTEM_NOTIFICATIONS -eq 1 ]; then
-                        STAT_NOT=$(sec2min $SILENCE_STATS)
+                        STAT_NOT=$(rendertimer $SILENCE_STATS)
                         osascript -e "display notification \"$STAT_NOT\" with title \"Songs are playing 😀🕺💃\""
                     fi
                 fi
