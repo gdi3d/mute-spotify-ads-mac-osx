@@ -13,20 +13,20 @@ else
     LATEST_VER=$(curl -s https://raw.githubusercontent.com/gdi3d/mute-spotify-ads-mac-osx/master/NoAdsSpotify.sh | grep "CURRENT_VER=" | head -n1 | awk -F '=' '{print $2}')
     
     if [ $CURRENT_VER -ne $LATEST_VER ]; then
-        read -n 1 -p "A new version is available, will you like to update? [y/N]" update
+        read -n 1 -p "A new version is available, would you like to update? [y/N]" update
         if [ -n "$update" ]; then
             if [ $update == "y" ]; then
                 curl https://raw.githubusercontent.com/gdi3d/mute-spotify-ads-mac-osx/master/NoAdsSpotify.sh > $INSTALLATION_DIR/NoAdsSpotify.sh
-                echo "Update finish. 🥳"
+                echo "Update finished. 🥳"
                 RELAUNCH="/bin/bash ${INSTALLATION_DIR}/NoAdsSpotify.sh {$1}"
                 exec ${RELAUNCH}
             else
                 echo
-                echo "Skiping update... ☹️"
+                echo "Skipping update... ☹️"
             fi
         else
             echo
-            echo "Skiping update... ☹️"
+            echo "Skipping update... ☹️"
         fi
     fi
 fi
@@ -68,7 +68,7 @@ rendertimer(){
         # if current part is not the last portion of the sentence, append a comma
         [ $currentpart -ne $((lengthofparts-1)) ] && result+=", "
     done
-    echo "$result of ads silenced so far 😎\r\n"
+    echo "$result of ads silenced so far 😎"
 }
 
 # create stats file
@@ -105,7 +105,7 @@ MSG_SONG_PLAYING_ECHOED=0
 CURRENT_VOLUME=$(osascript -e 'tell application "Spotify" to set A to sound volume')
 
 echo
-echo "Spotify Ads will be silenced while this program is running!. (This works ONLY with the Spotify App, not the web version)"
+echo "Spotify Ads will be silenced while this program is running! (This works ONLY with the Spotify App, not the web version)"
 echo "This program was downloaded from https://gdi3d.github.io/mute-spotify-ads-mac-osx/ (check for documentation)"
 echo
 echo "If the program is not working properly please open an issue at: https://github.com/gdi3d/mute-spotify-ads-mac-osx/issues/new"
