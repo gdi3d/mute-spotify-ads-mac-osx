@@ -1,5 +1,5 @@
 #!/bin/bash
-CURRENT_VER=22
+CURRENT_VER=23
 
 set -e
 
@@ -69,6 +69,7 @@ rendertimer(){
         [ $currentpart -ne $((lengthofparts-1)) ] && result+=", "
     done
     echo "$result of ads silenced so far 😎"
+    echo
 }
 
 # create stats file
