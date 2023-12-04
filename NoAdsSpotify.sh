@@ -180,7 +180,12 @@ while :
 
         fi
 
-        # Wait before check again
+		if [[ $* == *--low-freq-polling* ]]; then
+			# quizes Spotify to know how long is left on this track
+			TRACK_LENGTH=$(($(osascript -e 'tell application "Spotify" to duration of current track')/1000))
+			TRACK_POS=$(osascript -e 'tell application "Spotify" to player position')
+			INTERVAL_CHECK_TIME_SEC=$(echo $TRACK_LENGTH - $TRACK_POS + 0.5 | bc -l)
+		fi
         sleep $INTERVAL_CHECK_TIME_SEC
     done
 
