@@ -1,5 +1,5 @@
 #!/bin/bash
-CURRENT_VER=23
+CURRENT_VER=24
 
 set -e
 
@@ -103,6 +103,12 @@ INTERVAL_CHECK_TIME_SEC=0.5
 MSG_AD_ECHOED=0
 MSG_SONG_PLAYING_ECHOED=0
 
+if [[ -z $(pgrep -x Spotify) ]]; then
+	# starts Spotify since it's not running
+ 	open -a Spotify
+	sleep 3
+fi
+
 CURRENT_VOLUME=$(osascript -e 'tell application "Spotify" to set A to sound volume')
 
 echo
@@ -114,7 +120,7 @@ echo
 echo "Press control+c to close this program or close the terminal window"
 echo
 
-while :
+while ! [[ -z $(pgrep -x Spotify) ]]
     do 
 
         # Thanks to @bbbco for this cool tip on how to use 
