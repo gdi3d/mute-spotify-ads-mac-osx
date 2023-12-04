@@ -1,5 +1,5 @@
 #!/bin/bash
-CURRENT_VER=23
+CURRENT_VER=24
 
 set -e
 
