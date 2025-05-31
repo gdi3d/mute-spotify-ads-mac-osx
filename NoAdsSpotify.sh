@@ -1,5 +1,5 @@
 #!/bin/bash
-CURRENT_VER=24
+CURRENT_VER=25
 
 set -e
 
@@ -10,13 +10,13 @@ INSTALLATION_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pw
 if ! [ -x "$(command -v curl)" ]; then
     echo "curl command is not present. Auto Update function is disabled"
 else
-    LATEST_VER=$(curl -s https://raw.githubusercontent.com/gdi3d/mute-spotify-ads-mac-osx/master/NoAdsSpotify.sh | grep "CURRENT_VER=" | head -n1 | awk -F '=' '{print $2}')
-    
+    LATEST_VER=$(curl --connect-timeout 3 -s https://raw.githubusercontent.com/gdi3d/mute-spotify-ads-mac-osx/master/NoAdsSpotify.sh | grep "CURRENT_VER=" | head -n1 | awk -F '=' '{print $2}')
+
     if [ $CURRENT_VER -ne $LATEST_VER ]; then
         read -n 1 -p "A new version is available, would you like to update? [y/N]" update
         if [ -n "$update" ]; then
             if [ $update == "y" ]; then
-                curl https://raw.githubusercontent.com/gdi3d/mute-spotify-ads-mac-osx/master/NoAdsSpotify.sh > $INSTALLATION_DIR/NoAdsSpotify.sh
+                curl --connect-timeout 10 https://raw.githubusercontent.com/gdi3d/mute-spotify-ads-mac-osx/master/NoAdsSpotify.sh > $INSTALLATION_DIR/NoAdsSpotify.sh
                 echo "Update finished. 🥳"
                 RELAUNCH="/bin/bash ${INSTALLATION_DIR}/NoAdsSpotify.sh {$1}"
                 exec ${RELAUNCH}
