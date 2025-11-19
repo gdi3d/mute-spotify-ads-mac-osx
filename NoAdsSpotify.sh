@@ -1,5 +1,5 @@
 #!/bin/bash
-CURRENT_VER=25
+CURRENT_VER=26
 
 set -e
 
@@ -81,7 +81,7 @@ rendertimer(){
     [ "$S" -gt "0" ] && parts+=("$S $S_TAG")
 
     # construct the sentence
-    result=">> ⏳ "
+    result="» ⏳ "
     lengthofparts=${#parts[@]}
     for (( currentpart = 0; currentpart < lengthofparts; currentpart++ )); do
         result+="${parts[$currentpart]}"
@@ -131,7 +131,7 @@ echo "This program was downloaded from https://gdi3d.github.io/mute-spotify-ads-
 echo
 echo "If the program is not working properly please open an issue at: https://github.com/gdi3d/mute-spotify-ads-mac-osx/issues/new"
 echo
-echo "Press control+c to close this program or close the terminal window"
+echo "Press Control+C to close this program, or simply close the terminal window."
 echo
 
 while :
@@ -157,10 +157,10 @@ while :
 
                 MSG_AD_ECHOED=1
                 
-                echo ">> 🔇 Ad found! Your volume will be set all the way down now until the next song!"
+                echo "» 🔇 Ad found! Your volume will be turned all the way down until the next song!"
 
                 if [ $SHOW_SYSTEM_NOTIFICATIONS -eq 1 ]; then
-                    osascript -e "display notification \"🔇 Ad found! Your volume will be set all the way down now until the next song!\" with title \"Muting Spotify Ad\""
+                    osascript -e "display notification \"🔇 Ad found! Your volume will be turned all the way down until the next song!\" with title \"Muting Spotify Ad\""
                 fi
 
                 # start counting. This will be added to the stats.txt file later on
@@ -178,7 +178,7 @@ while :
                 osascript -e 'tell application "Spotify" to set sound volume to '$(($CURRENT_VOLUME+1))
 
                 MSG_SONG_PLAYING_ECHOED=1
-                echo ">> 🔈 Songs are playing 😀🕺💃. Audio back to normal"
+                echo "» 🔈 Songs are playing 😀🕺💃. Audio is back to normal"
                 
                 # add seconds to stats file
                 if ! [ -z $AD_TIME_START ]; then 
