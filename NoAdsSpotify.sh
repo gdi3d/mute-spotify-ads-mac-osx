@@ -1,5 +1,5 @@
 #!/bin/bash
-CURRENT_VER=26
+CURRENT_VER=27
 
 set -e
 
@@ -33,7 +33,7 @@ fi
 
 if [ -z $(pgrep -x Spotify) ]; then
     echo
-    echo "✋ Spotify is not running. Please launch Spotify App first"
+    echo "✋ Spotify is not running. Please launch Spotify App first, then launch this again"
     echo
     exit
 fi
@@ -131,12 +131,21 @@ echo "This program was downloaded from https://gdi3d.github.io/mute-spotify-ads-
 echo
 echo "If the program is not working properly please open an issue at: https://github.com/gdi3d/mute-spotify-ads-mac-osx/issues/new"
 echo
+echo "Questions or Feedback: https://forms.gle/umVvFjgD6GtmB6KXA"
+echo 
 echo "Press Control+C to close this program, or simply close the terminal window."
 echo
 
 while :
     do 
 
+        if [ -z $(pgrep -x Spotify) ]; then
+            echo
+            echo "✋ Spotify is not running. Please launch Spotify App first, then launch this again"
+            echo
+            exit
+        fi
+        
         # Thanks to @bbbco for this cool tip on how to use 
         # osascript to get the current track url
         AD_DETECTED=$(osascript -e 'tell application "Spotify" to get spotify url of current track'|cut -d ":" -f 2)
