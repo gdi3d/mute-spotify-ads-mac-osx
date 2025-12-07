@@ -1,5 +1,5 @@
 #!/bin/bash
-CURRENT_VER=27
+CURRENT_VER=28
 
 set -e
 
@@ -139,13 +139,13 @@ echo
 while :
     do 
 
-        if [ -z $(pgrep -x Spotify) ]; then
-            echo
-            echo "✋ Spotify is not running. Please launch Spotify App first, then launch this again"
-            echo
-            exit
-        fi
-        
+        #if [ -z $(pgrep -x Spotify) ]; then
+        #    echo
+        #    echo "✋ Spotify is not running. Please launch Spotify App first, then launch this again"
+        #    echo
+        #    exit
+        #fi
+
         # Thanks to @bbbco for this cool tip on how to use 
         # osascript to get the current track url
         AD_DETECTED=$(osascript -e 'tell application "Spotify" to get spotify url of current track'|cut -d ":" -f 2)
