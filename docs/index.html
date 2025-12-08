@@ -1,200 +1,512 @@
 <!DOCTYPE html>
-<html lang="en-US">
+<html lang="en">
   <head>
     <meta charset="UTF-8">
-      <title>Mute Spotify Ads On Mac | Mute Mac (osx) computer audio when Spotify plays an AD</title>
-      <meta property="og:title" content="Mute Spotify Ads On Mac" />
-      <meta property="og:locale" content="en_US" />
-      <meta name="description" content="Mute Mac (osx) computer audio when Spotify plays an AD" />
-      <meta property="og:description" content="Mute Mac (osx) computer audio when Spotify plays an AD" />
-      <link rel="canonical" href="https://gdi3d.github.io/mute-spotify-ads-mac-osx/" />
-      <meta property="og:url" content="https://gdi3d.github.io/mute-spotify-ads-mac-osx/" />
-      <meta property="og:site_name" content="Mute Spotify Ads On Mac" />
-      <meta property="og:type" content="website" />
-      <meta property="og:image" content="https://raw.githubusercontent.com/gdi3d/mute-spotify-ads-mac-osx/master/docs/mute-spotify-ads-osx.jpg" />
-      <meta name="twitter:card" content="summary" />
-      <meta property="twitter:title" content="Mute Spotify Ads On Mac" />
-      <script type="application/ld+json">
-      {"@context":"https://schema.org","@type":"WebSite","description":"Mute Mac (osx) computer audio when Spotify plays an AD","headline":"Mute Spotify Ads On Mac","name":"Mute Spotify Ads On Mac","url":"https://gdi3d.github.io/mute-spotify-ads-mac-osx/"}</script>
-      <link rel="preconnect" href="https://fonts.gstatic.com">
-      <link rel="preload" href="https://fonts.googleapis.com/css?family=Open+Sans:400,700&display=swap" as="style" type="text/css" crossorigin>
-      <meta name="viewport" content="width=device-width, initial-scale=1">
-      <meta name="theme-color" content="#157878">
-      <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-      <link rel="stylesheet" href="style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mute Spotify Ads on Mac OS X - Easy Solutions for All Users</title>
+    <meta name="description" content="Mute Mac (osx) computer audio when Spotify plays an AD" />
+    <meta name="keywords" content="mute Spotify ads, Mac OS X, Spotify ad blocker, Shortcut automation, mute ads automatically">
+    <meta property="og:title" content="Mute Spotify Ads On Mac" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:description" content="Mute Mac (osx) computer audio when Spotify plays an AD" />
+    <link rel="canonical" href="https://gdi3d.github.io/mute-spotify-ads-mac-osx/" />
+    <meta property="og:url" content="https://gdi3d.github.io/mute-spotify-ads-mac-osx/" />
+    <meta property="og:site_name" content="Mute Spotify Ads On Mac" />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="https://raw.githubusercontent.com/gdi3d/mute-spotify-ads-mac-osx/master/docs/mute-spotify-ads-osx.jpg" />
+    <meta name="twitter:card" content="summary" />
+    <meta property="twitter:title" content="Mute Spotify Ads On Mac" />
+    <!-- Bulma CSS 1.0.4 -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.4/css/bulma.min.css">
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+    /* Minimal custom styles only for background and minor tweaks */
+    :root {
+    --spotify-green: #1DB954;
+    --spotify-dark: #191414;
+    }
+    
+    .hero-background {
+    background-image: linear-gradient(rgba(25, 20, 20, 0.75), rgba(25, 20, 20, 0.4)), url('antoine-borowiak-97drVUA9sQ4-unsplash.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    }
+    
+    .method-card {
+    height: 100%;
+    transition: transform 0.3s ease;
+    }
+    
+    .method-card:hover {
+    transform: translateY(-5px);
+    }
+    
+    .simple-method {
+    border-top: 4px solid var(--spotify-green);
+    }
+    
+    .advanced-method {
+    border-top: 4px solid var(--spotify-dark);
+    }
+    
+    .step-number {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    background-color: var(--spotify-green);
+    color: white;
+    border-radius: 50%;
+    font-weight: bold;
+    margin-right: 10px;
+    }
+    
+    .code-block {
+    background-color: #2d2d2d;
+    font-family: 'Courier New', monospace;
+    padding: 10px;
+    }
+    .content-section {
+    scroll-margin-top: 2rem;
+    }
+    </style>
+
   </head>
   <body>
-    <header class="page-header" role="banner">
-      <h1 class="project-name">Mute Spotify Ads On Mac</h1>
-      <h2 class="project-tagline">Mute Mac (osx) computer audio when Spotify plays an AD</h2>
-        <a href="https://github.com/gdi3d/mute-spotify-ads-mac-osx" class="btn">View on GitHub</a>
-    </header>
+    <!-- Hero Section -->
+    <section class="hero is-medium hero-background">
+      <div class="hero-body">
+        <div class="container has-text-centered">
+          <h1 class="title is-1 has-text-white">
+          Mute Spotify Ads on Mac OS X
+          </h1>
+          <h2 class="subtitle is-4 has-text-light">
+          Automatically mute Spotify when ads play and unmute when music resumes
+          </h2>
+          <div class="buttons is-centered mt-5">
+            <a href="#simple-method" class="button is-success is-large">
+              <span class="icon">
+                <i class="fas fa-download"></i>
+              </span>
+              <span>Download</span>
+            </a>
+            <a href="#advanced-method" class="button is-dark">
+              <span class="icon">
+                <i class="fas fa-terminal"></i>
+              </span>
+              <span>Console Install (Advanced Users)</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
 
-    <main id="content" class="main-content" role="main">
-      <table>
-  <tbody>
-    <tr>
-      <td><a href="#mute-spotify-ads-on-mac">English</a></td>
-      <td><a href="#silenciar-anuncios-de-spotify-en-mac-os-x">Español</a></td>
-    </tr>
-  </tbody>
-</table>
+    <!-- Main Content -->
+    <section class="section">
+      <div class="container">
+        <div class="columns is-multiline">
+          <!-- Simple Method Card -->
+          <div class="column is-6" id="simple-method">
+            <div class="card method-card simple-method">
+              <div class="card-content">
+                <div class="media">
+                  <div class="media-left">
+                    <div class="icon is-large has-text-success">
+                      <i class="fas fa-check-circle fa-2x"></i>
+                    </div>
+                  </div>
+                  <div class="media-content">
+                    <p class="title is-3">Download and Install</p>
+                    <p class="subtitle is-6 has-text-grey">
+                      For users who prefer a simple, one-click solution.
+                      <br><span class="is-italic has-text-weight-bold">(macOS Monterey version 12 or newer)</span>
+                    </p>
+                  </div>
+                </div>
+                
+                <div class="content">
+                  <p>This method uses a pre-made <a href="https://support.apple.com/guide/shortcuts-mac/intro-to-shortcuts-apdf22b0444c/mac" target="_blank">Shortcut app</a> to launch this script. No technical knowledge required</p>
+                  
+                  <!-- Step 1 -->
+                  <div class="box mt-5">
+                    <div class="is-flex is-align-items-center mb-3">
+                      <span class="step-number">1</span>
+                      <h3 class="title is-4 mb-0 mt-0">Download the Shortcut App</h3>
+                    </div>
+                    <div class="mt-4">
+                      <a href="https://www.icloud.com/shortcuts/8718a5193cb345cdbd22d83d35a544c1" target="_blank" class="button is-success is-large is-fullwidth">
+                        <span class="icon">
+                          <i class="fas fa-download"></i>
+                        </span>
+                        <span>Download Shortcut</span>
+                      </a>
+                    </div>
+                  </div>
+                  
+                  <!-- Step 2 -->
+                  <div class="box">
+                    <div class="is-flex is-align-items-center mb-3">
+                      <span class="step-number">2</span>
+                      <h3 class="title is-4 mb-0 mt-0">Follow the instructions on the video</h3>
+                    </div>
+                    <p>
+                      <video id="myVideo" controls poster="video-thumb.jpg">
+                          <source src="mute-spotify-ads-installation.mp4" type="video/mp4">
+                          Your browser does not support the video tag.
+                      </video>
+                    </p>
+                  </div>
+                  
+                  <!-- Step 3 -->
+                  <div class="box">
+                    <div class="is-flex is-align-items-center mb-3">
+                      <span class="step-number">3</span>
+                      <h3 class="title is-4 mb-0 mt-0">Launch It</h3>
+                    </div>
+                    <ol class="ml-4">
+                      <li class="mb-2">Launch Spotify App</li>
+                      <li class="mb-2">Find <span class="has-text-weight-bold">Mute Spotify Ads</span> in your <span class="has-text-weight-bold">Shortcut library</span> or search it using <span class="has-text-weight-bold">Spotlight</span></li>
+                      <li>Click the <strong>Play</strong> button to run it</li>
+                    </ol>
+                    <p class="mt-3">The shortcut will run in the background and automatically mute Spotify when ads play.</p>
+                    <p class="mt-3 is-italic has-text-weight-semibold">Note: Once Spotify is closed the shortcut will stop running too.</p>
+                  </div>
+                  
+                  <!-- Note -->
+                  <article class="message is-info mt-5">
+                    <div class="message-header">
+                      <p>How It Works</p>
+                    </div>
+                    <div class="message-body">
+                      This shortcut does exactly what the console install does, but with a user-friendly interface. The shortcut runs quietly in the background without interrupting your listening experience.
+                    </div>
+                  </article>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Advanced Method Card -->
+          <div class="column is-6" id="advanced-method">
+            <div class="card method-card advanced-method">
+              <div class="card-content">
+                <div class="media">
+                  <div class="media-left">
+                    <div class="icon is-large has-text-dark">
+                      <i class="fas fa-code fa-2x"></i>
+                    </div>
+                  </div>
+                  <div class="media-content">
+                    <p class="title is-3">Console Install</p>
+                    <p class="subtitle is-6 has-text-grey">For tech savvy users or macOS versions without Shortcut App</p>
+                  </div>
+                </div>
 
-<h1 id="mute-spotify-ads-on-mac">Mute Spotify Ads On Mac</h1>
-<p>I use Spotify on my computer from time to time but I hate when the Ads start playing.</p>
+                <!-- Warning -->
+                <article class="message is-warning mt-5">
+                  <div class="message-header">
+                    <p><i class="fas fa-exclamation-triangle mr-2"></i> Terminal Knowledge Required</p>
+                  </div>
+                  <div class="message-body">
+                    This method requires familiarity with Terminal commands. If you're not comfortable with the command line, we recommend using the Simple Method above.
+                  </div>
+                </article>
+                
+                <div class="content">
+                  <p>This method runs the same shell script in the background to detect and mute Spotify ads. You'll need to use Terminal and have basic command-line knowledge.</p>
+                  
+                  
+                  <!-- How to install it -->
+                  <div class="box mt-5 content-section">
+                    <div class="is-flex is-align-items-center mb-3">
+                      <span class="step-number">1</span>
+                      <h3 class="title is-4 has-text-dark mt-0 mb-0">Download and Install</h3>
+                    </div>
+                    
+                    <ol class="ml-4">
+                      <li class="mb-2">Open the application Terminal. Search it inside your Applications folder or using Spotlight search (cmd+space bar) and type terminal.app</li>
+                      <li class="mb-2">Inside that white window (that’s the terminal app) paste this command and then hit enter. Make sure to copy the whole content.</li>
+                      
+                      <pre>mkdir -p ~/MuteSpotifyAds && curl https://raw.githubusercontent.com/gdi3d/mute-spotify-ads-mac-osx/master/NoAdsSpotify.sh > ~/MuteSpotifyAds/NoAdsSpotify.sh</pre>
+                      <li class="mb-2">
+                        This will create a new folder inside your Home folder called <code>MuteSpotifyAds</code> and will place a new file called <code>NoAdsSpotify.sh</code>
+                      </li>
+                    </ol>
+                  </div>
+                
+                  <!-- How to run it -->
+                  <div class="box mt-5 content-section">
+                    <div class="is-flex is-align-items-center mb-3">
+                      <span class="step-number">2</span>
+                      <h3 class="title is-4 has-text-dark mt-0 mb-0">Run the script</h3>
+                    </div>
+                    <ol class="ml-4">
+                      <li class="mb-2">To run the program just copy and paste the code below in the terminal and hit enter</li>
+                      <pre>sh ~/MuteSpotifyAds/NoAdsSpotify.sh</pre>
+                      <p>If you want to enable desktop notifications run this</p>
+                      <pre>sh ~/MuteSpotifyAds/NoAdsSpotify.sh show</pre>
+                      <li class="mb-2">Open Spotify App and enjoy!</li>
+                      <li class="mb-2">
+                        After you’re done listening to your tracks you can close this application by <span class="has-text-weight-bold">closing the terminal app. Remember: You need to run this program the next time you open Spotify if you want to mute the Ads</span>
+                      </li>
+                    </ol>
+                  </div>
 
-<p>I don’t mind having a <strong>break</strong> between a few songs, but I don’t wanna hear the Ads, so I decided to create a small script to hack it.</p>
+                  <div class="box mt-5 content-section">
+                    <div class="is-flex is-align-items-center mb-3">
+                      <span class="">
+                        <i class="fas fa-video fa-2x mr-2"></i> 
+                      </span>
+                      <h3 class="title is-4 has-text-dark mt-0 mb-0">Full process demo</h3>
+                    </div>
+                    <script id="asciicast-405918" src="https://asciinema.org/a/405918.js" async=""></script>
+                  </div>
+            
+                  <hr>
+              
+                  <!-- Stats file (Advanced Users) -->
+                  <div class="box content-section">
+                    <h3 class="title is-4 has-text-dark">Stats file (Advanced Users)</h3>
+                    <div class="content mt-3">
+                      <p>The script generates a file called <code>stats.txt</code> that stores the amount of seconds of ads blocked.</p>
 
-<p><strong>Important: This script works ONLY with the App version of Spotify on Mac. It doesn’t work on the web version</strong></p>
+                      <p>By default the file is created in the same folder where script is installed.</p>
 
-<h1 id="how-to-install-it">How to install it</h1>
+                      <p>You can change the location of this file by defining the environment variable <code>MUTE_SPOTIFY_STATS_PATH</code> using the full path. Ex: <code>/Users/joe/.local/mute-spotify-ads-mac-osx</code></p>
+              
+                      <div class="notification is-light mt-4">
+                        <p>You can view the stats file at any time to see how many seconds of ads you've muted. The file is automatically created and updated by the script.</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
 
-<script id="asciicast-405918" src="https://asciinema.org/a/405918.js" async=""></script>
+        <div class="mt-6 content-section" id="how-to-uninstall">
+          <div class="card ">
+            <div class="card-content">
+              <h2 class="title is-2 has-text-centered mb-6">How to uninstall?</h2>
+              <ol class="ml-4 is-size-5">
+                <li class="mb-2">Open Finder and navigate to your Home folder (🏠 icon)</li>
+                <li class="mb-2">Find the folder called <code>MuteSpotifyAds</code> and delete it.</li>
+                <li class="mb-2">Open Shortcut App and remove the <code>Mute Spotify Ads</code> item.</li>
+              </ol>
+              
+            </div>
+          </div>
+        </div>
+  
+        <!-- Comparison Section -->
+        <div class="mt-6 content-section" id="which-method">
+          <div class="card ">
+            <div class="card-content">
+              <h2 class="title is-2 has-text-centered mb-6">Which Method Should You Choose?</h2>
+              
+              <div class="columns">
+                <div class="column">
+                  <div class="box">
+                    <h3 class="title is-4 has-text-success">Simple Method (Shortcut App)</h3>
+                    <ul>
+                      <li class="mb-2"><strong>Best for:</strong> Most users, especially those not comfortable with Terminal</li>
+                      <li class="mb-2"><strong>Setup time:</strong> 1-2 minutes</li>
+                      <li class="mb-2"><strong>Technical knowledge:</strong> None required</li>
+                    </ul>
+                  </div>
+                </div>
+                
+                <div class="column">
+                  <div class="box">
+                    <h3 class="title is-4 has-text-dark">Advanced Method (Terminal Script)</h3>
+                    <ul>
+                      <li class="mb-2"><strong>Best for:</strong> Developers, power users, and Terminal enthusiasts</li>
+                      <li class="mb-2"><strong>Setup time:</strong> 2-3 minutes</li>
+                      <li class="mb-2"><strong>Technical knowledge:</strong> Basic Terminal skills required</li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+              
+              <article class="message is-info mt-5">
+                <div class="message-header">
+                  <p>Both Methods Achieve the Same Result</p>
+                </div>
+                <div class="message-body">
+                  Whether you choose the Simple Method or the Advanced Method, both approaches accomplish the same goal: automatically muting Spotify when ads play and unmuting when your music resumes. The Shortcut app essentially packages the terminal script into a user-friendly application that's easier to install and run for most users.
+                </div>
+              </article>
+            </div>
+          </div>
+        </div>
+        
+        <!-- How does it work? -->
+        <div class="mt-6 content-section" id="how-it-works">
+          <div class="card ">
+            <div class="card-content">
+              <h2 class="title is-2 has-text-centered mb-6">How does it work?</h2>
+              
+              <div class="content is-medium">
+                <p>The script detects Spotify ads using AppleScript (osascript), turns down the volume when ads play, and restores the previous volume when music resumes.</p>
+                
+                
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Repository -->
+        <div class="mt-6 content-section" id="repository">
+          <div class="card ">
+            <div class="card-content">
+              <h2 class="title is-2 has-text-centered mb-6">Repository</h2>
+              
+              <div class="content has-text-centered is-medium">
+                <div class="icon is-large has-text-dark mb-4">
+                  <i class="fab fa-github fa-3x"></i>
+                </div>
+                
+                <p class="mb-5">The complete source code for this project is available on GitHub. Feel free to explore, contribute, or report issues.</p>
+                
+                <div class="box has-background-light">
+                  <h3 class="title is-4">GitHub Repository</h3>
+                  <div class="code-block mt-3 p-4">
+                    <code>https://github.com/gdi3d/mute-spotify-ads-mac-osx</code>
+                  </div>
+                  
+                  <div class="buttons is-centered mt-4">
+                    <a href="https://github.com/gdi3d/mute-spotify-ads-mac-osx" target="_blank" class="button is-dark is-medium">
+                      <span class="icon">
+                        <i class="fab fa-github"></i>
+                      </span>
+                      <span>View on GitHub</span>
+                    </a>
+                    <a href="https://github.com/gdi3d/mute-spotify-ads-mac-osx/issues" target="_blank" class="button is-info is-medium">
+                      <span class="icon">
+                        <i class="fas fa-bug"></i>
+                      </span>
+                      <span>Report Issue</span>
+                    </a>
+                    <a href="https://github.com/gdi3d/mute-spotify-ads-mac-osx/fork" target="_blank" class="button is-success is-medium">
+                      <span class="icon">
+                        <i class="fas fa-code-branch"></i>
+                      </span>
+                      <span>Fork Repository</span>
+                    </a>
+                  </div>
+                </div>
+                
+                <div class="notification is-info mt-5">
+                  <p>This is an open-source project. Contributions, bug reports, and feature requests are welcome!</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Need help? -->
+        <div class="mt-6 content-section" id="need-help">
+          <div class="card ">
+            <div class="card-content">
+              <h2 class="title is-2 has-text-centered mb-6">Need help?</h2>
+              
+              <div class="content is-medium">
+                <p>If you've any questions or feedback, you can <a href="https://www.linkedin.com/in/adrianogalello/" target="_blank">send me a message on LinkedIn</a> or use the form bellow:</p>
+                
+                <div class="columns">
+                  <div class="column is-6">
+                    <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSerjM6glfKIiiUJraAZzzkX_DbMq_WNazbFnpeygb534OlVyQ/viewform?embedded=true" width="100%" height="760" frameborder="0" marginheight="0" marginwidth="0">Loading…</iframe>
+                    </div>
+                  </div>
+                  
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+  </section>
 
-<ol>
-  <li>Open the application <strong>Terminal</strong>. Search it inside your <strong>Applications</strong> folder or using <strong>Spotlight search</strong> (cmd+space bar) and type <strong>terminal.app</strong></li>
-  <li>
-    <p>Inside that white window (that’s the terminal app) paste this command and then hit enter</p>
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="content has-text-centered">
+      <p>
+        <strong>Mute Spotify Ads for Mac OS X</strong> © <span id="current-year"></span>. This tool is not affiliated with Spotify.
+      </p>
+      <p class="mt-3">
+        Note: These methods work by detecting ads and muting them; they don't block ads or provide ad-free listening without a premium subscription.
+      </p>
 
-    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mkdir -p ~/MuteSpotifyAds &amp;&amp; curl https://raw.githubusercontent.com/gdi3d/mute-spotify-ads-mac-osx/master/NoAdsSpotify.sh &gt; ~/MuteSpotifyAds/NoAdsSpotify.sh
-</code></pre></div>    </div>
-  </li>
-  <li>This will create a new folder inside your Home folder called <code class="language-plaintext highlighter-rouge">MuteSpotifyAds</code> and will place a new file called <code class="language-plaintext highlighter-rouge">NoAdsSpotify.sh</code></li>
-  <li>
-    <p>To run the program just copy and paste the code below in the terminal and hit enter</p>
+      <p>Photo credit: <a href="https://unsplash.com/@antoineboro68" target="_blank">https://unsplash.com/@antoineboro68</a></p>
+      
+      <div class="buttons is-centered mt-5">
+        <a href="#simple-method" class="button is-small is-success ">
+          Download and Install
+        </a>
+        <a href="#advanced-method" class="button is-small is-dark ">
+          Console Install
+        </a>
+        <a href="#how-it-works" class="button is-small is-link ">
+          How It Works
+        </a>
+        <a href="#need-help" class="button is-small is-warning ">
+          Need Help?
+        </a>
+        <a href="#repository" class="button is-small is-dark ">
+          Repository
+        </a>
+        <a href="#how-to-uninstall" class="button is-small is-danger ">
+          How To Uninstall
+        </a>
+      </div>
+    </div>
+  </footer>
+<script>
+// Set current year in footer
+document.getElementById('current-year').textContent = new Date().getFullYear();
 
-    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sh ~/MuteSpotifyAds/NoAdsSpotify.sh
-</code></pre></div>    </div>
+// Smooth scrolling for navigation
+document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+anchor.addEventListener('click', function (e) {
+e.preventDefault();
+const targetId = this.getAttribute('href');
+if(targetId === '#') return;
 
-    <p>If you want to enable desktop notifications run this</p>
-
-    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sh ~/MuteSpotifyAds/NoAdsSpotify.sh show
-</code></pre></div>    </div>
-  </li>
-  <li>Open Spotify App and enjoy!</li>
-  <li>After you’re done listening to your tracks you can close this application by <strong>closing the terminal app</strong>. <strong>Remember: You need to run this program the next time you open Spotify if you want to mute the Ads (steps 1 and 4)</strong></li>
-</ol>
-
-<h1 id="stats-file-advanced-users">Stats file (Advanced Users)</h1>
-
-<p>The script generates a file called <code class="language-plaintext highlighter-rouge">stats.txt</code> that stores the amount of seconds of ads blocked.</p>
-
-<p>By default the file is created in the same folder where script is installed. You can change the location of this file by defining the environment variable <code class="language-plaintext highlighter-rouge">MUTE_SPOTIFY_STATS_PATH</code> using the full path. Ex: <code class="language-plaintext highlighter-rouge">/Users/joe/.local/mute-spotify-ads-mac-osx</code></p>
-
-<h1 id="how-to-uninstall-it">How to uninstall it?</h1>
-<ol>
-  <li>Go to your home folder (the one with the 🏠 icon) using the <strong>Finder</strong></li>
-  <li>Make sure you’re not running the program (step 6 in the list above)</li>
-  <li>Find the folder called <code class="language-plaintext highlighter-rouge">MuteSpotifyAds</code> and delete it.</li>
-</ol>
-
-<h1 id="why-not-blocking-ads-instead">Why not blocking Ads instead???</h1>
-
-<p>I used to have all the Spotify Ads DNS blocked but that stopped working.</p>
-
-<p>Besides, I was bored that Saturday noon and I wanted to give it a try.</p>
-
-<h1 id="how-does-it-work">How does it work?</h1>
-
-<ol>
-  <li>Using osascript we detect the name of the track being played every half second.</li>
-  <li>If the track is an Ad <strong>automatically turn down the volume way down</strong> (if we mute it Spotify will detect it and stop working properly after a while).</li>
-  <li>If the next track is a song, <strong>restore volume</strong>.</li>
-</ol>
-
-<p>Kudos to <a href="https://github.com/bbbco">@bbbco</a> for providing a new solution after OS Ventura 13 release 💪💪</p>
-
-<h1 id="repository">Repository</h1>
-<p>Here’s the repo if you want to know more:
-<a href="https://github.com/gdi3d/mute-spotify-ads-mac-osx">https://github.com/gdi3d/mute-spotify-ads-mac-osx</a></p>
-
-<h1 id="need-help">Need help?</h1>
-
-<p>Contact me <a href="https://www.linkedin.com/in/adrianogalello/">on my LinkedIn</a>, feel free to send me a message.</p>
-
-<hr />
-
-<h1 id="silenciar-anuncios-de-spotify-en-mac-os-x">Silenciar Anuncios de Spotify en Mac OS X</h1>
-<p>Algunas veces utilizo Spotify pero no soporto los anuncios que ponen.</p>
-
-<p>No me molesta tener una <strong>pausa</strong> después de algunos temas, pero no quiero escuchar esos anuncios feos. Así que decidí crear un script para solucionarlo.</p>
-
-<p><strong>Importante: Este script SOLO FUNCIONA para la aplicación de Spotify en Mac. No funciona para la versión web</strong></p>
-
-<h1 id="como-instalar">Como Instalar</h1>
-
-<script id="asciicast-405918" src="https://asciinema.org/a/405918.js" async=""></script>
-
-<ol>
-  <li>Abre la aplicación <strong>Terminal</strong>. Busca dentro de tu carpeta de Aplicaciones o utilizar el buscador (cmd+barra espaciadora) y escribe <strong>terminal.app</strong></li>
-  <li>
-    <p>Dentro de esta ventana con fondo blanco pega el comando de aquí abajo y presiona enter</p>
-
-    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mkdir -p ~/MuteSpotifyAds &amp;&amp; curl https://raw.githubusercontent.com/gdi3d/mute-spotify-ads-mac-osx/master/NoAdsSpotify.sh &gt; ~/MuteSpotifyAds/NoAdsSpotify.sh
-</code></pre></div>    </div>
-  </li>
-  <li>Esto creará una nueva carpeta en tu <strong>Home</strong> llamada <code class="language-plaintext highlighter-rouge">MuteSpotifyAds</code> y dentro tendrá una archivo llamado <code class="language-plaintext highlighter-rouge">NoAdsSpotify.sh</code></li>
-  <li>
-    <p>Para correr el programa copia y pega el comando de aquí abajo dentro de la misma terminal y presiona enter</p>
-
-    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sh ~/MuteSpotifyAds/NoAdsSpotify.sh
-</code></pre></div>    </div>
-
-    <p>Si quieres habilitar las notificaciones usa este comando</p>
-
-    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sh ~/MuteSpotifyAds/NoAdsSpotify.sh show
-</code></pre></div>    </div>
-  </li>
-  <li>¡Abre la aplicación de Spotify App y listo!</li>
-  <li>Cuando acabes de escuchar tu música puedes cerrar el programa. Simplemente cierra la ventana de la terminal donde está ejecutándose el programa. <strong>Recuerda que la próxima vez que quieras escuchar música sin anuncios deberás volver a correr el programa (Pasos 1 y 4 solamente)</strong></li>
-</ol>
-
-<h1 id="archivo-de-estadisticas-usuarios-avanzados">Archivo de estadisticas (Usuarios avanzados)</h1>
-
-<p>El script genera un archivo llamado <code class="language-plaintext highlighter-rouge">stats.txt</code> que guarda la cantidad de segundos de anuncios bloquedos por el script.</p>
-
-<p>Por defecto el archivo es creado en la misma carpeta donde se instala el script. Puedes cambiar esta ubicación definiendo la variable de entorno <code class="language-plaintext highlighter-rouge">MUTE_SPOTIFY_STATS_PATH</code> y definiendo el path absoluto. Ej: <code class="language-plaintext highlighter-rouge">/Users/joe/.local/mute-spotify-ads-mac-osx</code></p>
-
-<h1 id="cómo-desinstalarlo">¿Cómo desinstalarlo?</h1>
-<ol>
-  <li>Ve a tu carpeta de Home (🏠)</li>
-  <li>Asegurate de que este programa no esté corriendo (Paso 6 en la lista anterior)</li>
-  <li>Busca una carpeta llamada <code class="language-plaintext highlighter-rouge">MuteSpotifyAds</code> y eliminala.</li>
-</ol>
-
-<h1 id="por-qué-no-bloquear-los-anuncios-en-vez-de-silenciarlos">¿¿¿Por qué no bloquear los anuncios en vez de silenciarlos???</h1>
-
-<p>Solía tener bloqueados todos los anuncios a través de DNS pero después de un tiempo dejó de funcionar.</p>
-
-<p>Además, era Domingo, estaba aburrido y queria probar si podía hacerlo de esta forma.</p>
-
-<h1 id="cómo-funciona">¿Cómo funciona?</h1>
-
-<ol>
-  <li>Usando osascript puedo leer, cada medio segundo, el nombre del track que esta sonando.</li>
-  <li>En caso de que sea un anuncio <strong>automáticamente se baja el volumen de Spotify a casi cero</strong> (Si lo ponemos en 0 Spotify lo detecta y deja de funcionar después de un tiempo).</li>
-  <li>En caso de que sea una canción <strong>se vuelve a subir el volumen</strong></li>
-</ol>
-
-<p>Kudos a <a href="https://github.com/bbbco">@bbbco</a> por ayudarme a encontrar una nueva solución luego del release de OS Ventura 13 💪💪</p>
-
-<h1 id="repositorio">Repositorio</h1>
-<p>Aquí está el repo si quieres saber más:
-<a href="https://github.com/gdi3d/mute-spotify-ads-mac-osx">https://github.com/gdi3d/mute-spotify-ads-mac-osx</a></p>
-
-<h1 id="necesitas-ayuda">¿Necesitas ayuda?</h1>
-
-<p>Contactame <a href="https://www.linkedin.com/in/adrianogalello/">en mi LinkedIn</a> y enviarme un mensaje.</p>
-
+const targetElement = document.querySelector(targetId);
+if(targetElement) {
+window.scrollTo({
+top: targetElement.offsetTop + 350,
+behavior: 'smooth'
+});
+}
+});
+});
+</script>
 <script async="" src="https://www.googletagmanager.com/gtag/js?id=G-MB1R249T41"></script>
-
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
-
   gtag('config', 'G-MB1R249T41');
+
+  // Track all link clicks
+  document.addEventListener('click', function(e) {
+    // Check if click was on a link
+    const link = e.target.closest('a');
+    if (link) {
+      gtag('event', 'link_click', {
+        'event_category': 'engagement',
+        'event_label': link.href,
+        'link_text': link.textContent.trim(),
+        'link_url': link.href,
+        'outbound': !link.href.includes(window.location.hostname)
+      });
+    }
+  });
 </script>
-    </main>
-  </body>
+</body>
 </html>

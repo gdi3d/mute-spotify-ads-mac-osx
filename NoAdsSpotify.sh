@@ -1,5 +1,5 @@
 #!/bin/bash
-CURRENT_VER=28
+CURRENT_VER=29
 
 set -e
 
@@ -31,24 +31,22 @@ else
     fi
 fi
 
-if [ -z $(pgrep -x Spotify) ]; then
+if [ -z $(pgrep -u $(whoami) -x Spotify) ]; then
     echo
     echo "✋ Spotify is not running. Please launch Spotify App first, then launch this again"
     echo
     exit
 fi
 
-IS_SCRIPT_RUNNING=$(ps aux|grep -c "[N]oAdsSpotify.sh")
+IS_SCRIPT_RUNNING=$(ps u|grep -c "[N]oAdsSpotify.sh")
 if [ $IS_SCRIPT_RUNNING -gt 2 ]; then
     echo "The script is already running. Automatically closing it..."
     echo
     echo "Please re-launch the script now"
-    PID=$(ps -eo pid,lstart,command | grep "[N]oAdsSpotify.sh" | sort -k 2 | awk '{print $1}')
+    PID=$(ps u -eo lstart,command | grep "[N]oAdsSpotify.sh" | sort -k 12 | awk '{print $2}')
     kill -9 ${PID}
     exit
 fi
-
-
 
 
 rendertimer(){
@@ -139,12 +137,12 @@ echo
 while :
     do 
 
-        #if [ -z $(pgrep -x Spotify) ]; then
-        #    echo
-        #    echo "✋ Spotify is not running. Please launch Spotify App first, then launch this again"
-        #    echo
-        #    exit
-        #fi
+        if [ -z $(pgrep -u $(whoami) -x Spotify) ]; then
+            echo
+            echo "✋ Spotify is not running. Please launch Spotify App first, then launch this again"
+            echo
+            exit
+        fi
 
         # Thanks to @bbbco for this cool tip on how to use 
         # osascript to get the current track url
