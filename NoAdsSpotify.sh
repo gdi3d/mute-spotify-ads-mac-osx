@@ -1,5 +1,5 @@
 #!/bin/bash
-CURRENT_VER=30
+CURRENT_VER=31
 
 set -e
 
@@ -158,7 +158,7 @@ while :; do
     if [ $MSG_AD_ECHOED -eq 0 ]; then
 
       # Ad found! Lower volume
-      osascript -e 'tell application "Spotify" to set sound volume to 0'
+      osascript -e 'tell application "Spotify" to set sound volume to 1'
 
       MSG_AD_ECHOED=1
 
